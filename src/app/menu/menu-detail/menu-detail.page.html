@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>  {{ recipeTitle }} </ion-title>
+  </ion-toolbar>
+</ion-header>  
+
+<ion-content>
+  <ion-card class="card-flex" >
+    <ion-img src="https://spoonacular.com/recipeImages/{{recipeId}}-312x231.jpg"></ion-img>
+  <ion-card-content>
+    <div class="text-title">
+        {{ recipeTitle }}
+    </div>
+    <br>
+    <ion-row>
+      <ion-col size="6" no-padding>
+          <ion-icon color="primary" name="pizza"></ion-icon>
+          <span class="info-content"> {{ recipeServings }}</span>
+      </ion-col>
+      <ion-col size="6" no-padding>
+          <ion-icon color="primary" name="timer"></ion-icon>  
+          <span class="info-content"> {{ recipeReadyInMinutes }}</span>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let ingredients of recipeIngredientsTranslated let i = index">
+        <div>{{i+1}}. {{ingredients}} </div><br>
+    </ion-row>
+    <ion-row *ngFor="let instruction of recipeInstructionTranslated let i = index">
+        <div>{{i+1}}. {{instruction}} </div><br>
+    </ion-row>
+  </ion-card-content>
+</ion-card>
+</ion-content>

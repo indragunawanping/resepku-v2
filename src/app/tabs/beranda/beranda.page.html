@@ -1,0 +1,81 @@
+<ion-header color="tertiary">
+  <ion-grid>
+      <ion-row justify-content-center align-items-center style="height: 100%">
+        <ion-col size="6">
+            <ion-img class="logo-resepku" src="../../assets/logo-resepku.png"></ion-img>
+        </ion-col>
+        <ion-col size="6" >
+          <ion-button class="ion-no-margin" class="bt-credits" slots="end" shape="round" [routerLink]="['/credits']">Credits</ion-button>
+        </ion-col>
+      </ion-row>
+  </ion-grid>
+</ion-header>
+
+<ion-content>
+<ion-searchbar placeholder="Mau masak apa hari ini?" color="success"></ion-searchbar>
+<ion-grid>
+  <div class="ion-text-center text" color="primary">
+    <div class="quotes">
+        No one is born a great cook. One learns by doing.<br>
+    </div>
+    <ion-text class="bold"> - Julia Child -</ion-text>
+  </div>
+  <ion-row>
+    <ion-col>
+      <ion-row>
+        <ion-card [routerLink]="['./', 'daging']">
+          <ion-img class="icon-recipe" src="../../assets/icon-daging.png"></ion-img>
+        </ion-card>
+      </ion-row>
+    </ion-col>
+    <ion-col>
+      <ion-card [routerLink]="['./', 'nasi']">
+          <ion-img src="../../assets/icon-nasi.png" ></ion-img>
+      </ion-card>
+    </ion-col>
+    <ion-col>
+      <ion-card [routerLink]="['./', 'sayuran']">
+          <ion-img src="../../assets/icon-sayuran.png"></ion-img>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+      <ion-col>
+        <ion-row>
+          <ion-card [routerLink]="['./', 'ikan']">
+            <ion-img class="icon-recipe" src="../../assets/icon-ikan.png"></ion-img>
+          </ion-card>
+        </ion-row>
+      </ion-col>
+      <ion-col>
+        <ion-card [routerLink]="['./', 'mi']">
+            <ion-img src="../../assets/icon-mi.png"></ion-img>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card [routerLink]="['./', 'kue']">
+            <ion-img src="../../assets/icon-kue.png"></ion-img>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+          <ion-row>
+            <ion-card [routerLink]="['./', 'masakan_jepang']"> 
+              <ion-img class="icon-recipe" src="../../assets/icon-masakan_jepang.png"></ion-img>
+            </ion-card>
+          </ion-row>
+        </ion-col>
+        <ion-col>
+          <ion-card [routerLink]="['./', 'masakan_tiongkok']">
+              <ion-img src="../../assets/icon-masakan_tiongkok.png"></ion-img>
+          </ion-card>
+        </ion-col>
+        <ion-col>
+          <ion-card [routerLink]="['./', 'masakan_italia']">
+              <ion-img src="../../assets/icon-masakan_italia.png"></ion-img>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+</ion-grid>
+</ion-content>

@@ -1,0 +1,43 @@
+.logo-resepku{
+    max-width: 100px;
+    text-align: center;
+    padding: none;
+}
+
+.icon-recipe{
+    width: 100% !important;
+    margin: auto !important;
+    display: block !important;
+}
+
+ion-grid{
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+}
+
+.bt-credits{
+    max-height: 30px;
+    max-width: 80px;
+    float: right;
+}
+
+ion-row{
+    ion-card{
+        width:100% !important;
+        margin: 0 !important;
+    }
+}
+
+.text{
+    font-size: small;
+    margin-top: 15px;
+    margin-bottom: 25px;
+}
+
+.bold{
+    font-weight: bold
+}
+
+.quotes{
+    margin-bottom: 3px !important;
+}
