@@ -10,8 +10,8 @@ import { RecipeService } from '../../services/recipe.service';
 export class MenusPage implements OnInit {
   menuType: string;
   menuTitle: string;
-
-  recipeData: any;
+  isBookmark: boolean;
+  recipesData: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -24,7 +24,7 @@ export class MenusPage implements OnInit {
         if (paramMap.has('menuType')) {
           this.menuType = paramMap.get('menuType');
           this.getMenuTitle();
-          this.recipeData = this.recipeService.getRecipesSvc(this.menuType);
+          this.recipesData = this.recipeService.getAllRecipesSvc(this.menuType);
         } else {
           return;
         }
@@ -66,4 +66,13 @@ export class MenusPage implements OnInit {
     }
   }
 
+  handleBookmarkChange() {
+    if(this.isBookmark === false) {
+      this.isBookmark = true;
+      this.recipeService.setBookmarkTrue();
+    } else {
+      this.isBookmark = false;
+      this.recipeService.setBookmarkFalse();
+    }
+  }
 }

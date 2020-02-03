@@ -8,30 +8,37 @@
 </ion-header>  
 
 <ion-content>
-  <ion-searchbar placeholder="Cari menu {{menuTitle}}" color="success"></ion-searchbar>
+    <div class="content-center">
+        <img class="logo-resepku2" src="../../../assets/logo-resepku-2.png" alt="">
+    </div>
   <ion-grid>
     <ion-row>
-        <ion-col *ngFor="let recipe of recipeData; let i = index" align-items-stretch size="6">
-            <ion-card>
-<!--                   [routerLink]="['./', recipe.id]" class="card-flex" (click)="setRecipeData(recipe.title, recipe.id, recipe.servings, recipe.readyInMinutes)"&ndash;&gt;-->
+        <ion-col *ngFor="let recipes of recipesData; let i = index" align-items-stretch size="6">
+            <ion-card
 
-                <ion-img class="thumbnail-recipe" src="{{recipeData[i]['gambar']}}"></ion-img>
-              <ion-card-content>
+                    class="card-flex"
+            >
+                <ion-fab-button class="button-fab" size="small" color="success" (click)="handleBookmarkChange()">
+                    <img class="icon-fab" src="../../../assets/icon-bookmark-fill.png" alt="icon-bookmark-fill.png">
+                </ion-fab-button>
+                <ion-img [routerLink]="['./', i]" *ngIf="recipesData[i]['gambar'] !== 'N/A'" class="thumbnail-recipe" src="{{recipesData[i]['gambar']}}"></ion-img>
+                <img [routerLink]="['./', i]" *ngIf="recipesData[i]['gambar'] === 'N/A'" src="../../../assets/no-image-available.png" alt="no-image-available">
+              <ion-card-content [routerLink]="['./', i]">
                 <div class="text-title">
-                    {{recipeData[i]['judul']}}
+                    {{recipesData[i]['judul']}}
                 </div>
                 <br>
                 <ion-row>
                   <ion-col size="6" no-padding>
                       <ion-icon color="primary" name="pizza"></ion-icon>
                       <span class="info-content">
-                         {{recipeData[i]['porsi']}}
+                         {{recipesData[i]['porsi']}}
                       </span>
                   </ion-col>
                   <ion-col size="6" no-padding>
                       <ion-icon color="primary" name="timer"></ion-icon>
                       <span class="info-content">
-                         {{recipeData[i]['lama']}}
+                         {{recipesData[i]['lama']}}
                       </span>
                   </ion-col>
                 </ion-row>

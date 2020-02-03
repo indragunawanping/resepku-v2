@@ -23,7 +23,8 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
+      this.statusBar.styleLightContent();
+      this.statusBar.backgroundColorByHexString('#B31E1A');
       this.splashScreen.hide();
     });
     firebase.initializeApp(environment.firebaseConfig);
