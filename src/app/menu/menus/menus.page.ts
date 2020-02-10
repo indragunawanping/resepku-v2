@@ -1,6 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RecipeService } from '../../services/recipe.service';
+import { Bookmark, StorageService } from '../../services/storage.service';
+import { Storage } from '@ionic/storage';
+import { ToastController } from '@ionic/angular';
+
+export interface Bookmark {
+  id: number;
+  title: string;
+  type: string;
+}
 
 @Component({
   selector: 'app-menus',
@@ -10,13 +19,23 @@ import { RecipeService } from '../../services/recipe.service';
 export class MenusPage implements OnInit {
   menuType: string;
   menuTitle: string;
-  isBookmark: boolean;
   recipesData: any;
+  bookmark: Bookmark[] = [];
+  isBookmark: boolean;
+  messageToast: string;
+  ionViewWillEnter() {
+    this.getBookmark();
+  }
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    public recipeService: RecipeService
-  ) { }
+    public recipeService: RecipeService,
+    public storageService: StorageService,
+    public storage: Storage,
+    public toastController: ToastController,
+  ) {
+    this.getBookmark();
+  }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(
@@ -30,6 +49,7 @@ export class MenusPage implements OnInit {
         }
       }
     );
+    this.getBookmark();
   }
 
   getMenuTitle() {
@@ -66,13 +86,35 @@ export class MenusPage implements OnInit {
     }
   }
 
-  handleBookmarkChange() {
-    if(this.isBookmark === false) {
-      this.isBookmark = true;
-      this.recipeService.setBookmarkTrue();
+  async getBookmark(): Promise <any> {
+    await this.storage.get('bookmark').then((bookmarks: Bookmark[]) => {
+      if (bookmarks) {
+        this.bookmark = [];
+        for (const bookmark in bookmarks) {
+          if (bookmark) {
+            this.bookmark.push(bookmarks[bookmark]);
+          }
+        }
+      }
+    });
+  }
+
+  async handleBookmarkChange(recipeId, recipeTitle, recipeImageUrl) {
+    this.isBookmark = await this.storageService.updateBookmark(recipeId, recipeTitle, this.menuTitle, recipeImageUrl);
+    this.getBookmark();
+    this.presentToast(recipeTitle);
+  }
+
+  async presentToast(recipeTitle) {
+    if (this.isBookmark) {
+      this.messageToast = 'ditambahkan ke';
     } else {
-      this.isBookmark = false;
-      this.recipeService.setBookmarkFalse();
+      this.messageToast = 'dihapus dari';
     }
+    const toast = await this.toastController.create({
+      message: recipeTitle + ' berhasil ' + this.messageToast + ' Bookmark.',
+      duration: 1500
+    });
+    toast.present();
   }
 }

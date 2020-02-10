@@ -32,24 +32,14 @@ export class RecipeService {
     this.recipeDataSvc = [];
     recipeRef.on('value', (snapshot) => {
       const snapshotVal = snapshot.val();
+      this.recipeDataSvc.push(index);
       for (const recipe in snapshotVal) {
         if (snapshotVal.hasOwnProperty(recipe)) {
           this.recipeDataSvc.push(snapshotVal[recipe]);
         }
       }
     });
+    console.log('recipeDataSvc: ', this.recipeDataSvc);
     return this.recipeDataSvc;
-  }
-
-  setBookmarkTrue() {
-    this.bookmarkRef.push().update({
-      condition: 'true'
-    });
-  }
-
-  setBookmarkFalse() {
-    this.bookmarkRef.push().update({
-      condition: 'false'
-    });
   }
 }

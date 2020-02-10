@@ -38,4 +38,18 @@ hr{
     border-top: 0.5px solid;
 }
 
+.button-fab{
+    position: absolute;
+    right: 5%;
+    bottom: 3%;
+    z-index: 2;
+}
 
+.icon-fab{
+    max-width: 10px;
+}
+
+#fabBookmarkOutline{
+    position:absolute;
+    z-index: -1;
+}

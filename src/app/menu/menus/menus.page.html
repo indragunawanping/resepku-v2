@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>Menu {{menuTitle}}</ion-title>
   </ion-toolbar>
-</ion-header>  
+</ion-header>
 
 <ion-content>
     <div class="content-center">
@@ -13,13 +13,15 @@
     </div>
   <ion-grid>
     <ion-row>
-        <ion-col *ngFor="let recipes of recipesData; let i = index" align-items-stretch size="6">
+        <ion-col *ngFor="let recipes of recipesData; let i = index;" align-items-stretch size="6">
             <ion-card
-
                     class="card-flex"
             >
-                <ion-fab-button class="button-fab" size="small" color="success" (click)="handleBookmarkChange()">
-                    <img class="icon-fab" src="../../../assets/icon-bookmark-fill.png" alt="icon-bookmark-fill.png">
+                <ion-fab-button class="button-fab" size="small" color="success" (click)="handleBookmarkChange(i, recipesData[i]['judul'], recipesData[i]['gambar'])">
+                    <img id="fabBookmarkOutline" class="icon-fab" src="../../../assets/icon-bookmark-outline.png" alt="icon-bookmark-outline.png">
+                    <div *ngFor="let bm of bookmark; let j = index" id="fabDiv">
+                        <img *ngIf="bookmark[j].title === recipesData[i]['judul']" class="icon-fab" src="../../../assets/icon-bookmark-fill.png" alt="icon-bookmark-fill.png">
+                    </div>
                 </ion-fab-button>
                 <ion-img [routerLink]="['./', i]" *ngIf="recipesData[i]['gambar'] !== 'N/A'" class="thumbnail-recipe" src="{{recipesData[i]['gambar']}}"></ion-img>
                 <img [routerLink]="['./', i]" *ngIf="recipesData[i]['gambar'] === 'N/A'" src="../../../assets/no-image-available.png" alt="no-image-available">
