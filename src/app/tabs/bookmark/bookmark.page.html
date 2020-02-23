@@ -1,12 +1,12 @@
 <ion-header>
   <ion-toolbar color="secondary">
     <ion-title>Bookmark</ion-title>
+    <ion-fab-button class="button-fab" size="small" color="success" (click)="handleButtonDeleteAllClick()">
+      <img class="icon-fab" src="../../../assets/icon-trash.png" alt="icon-bookmark-outline.png">
+    </ion-fab-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-fab-button class="button-fab" color="success" (click)="handleButtonDeleteAllClick()">
-  <img class="icon-fab" src="../../../assets/icon-trash.png" alt="icon-bookmark-outline.png">
-</ion-fab-button>
 <ion-content>
   <ion-grid text-center style="height: 100%">
     <ion-row *ngIf="bookmark.length === 0" justify-content-center align-items-center style="height: 100%">
@@ -17,18 +17,16 @@
       </ion-col>
     </ion-row>
     <ion-list *ngIf="bookmark.length > 0">
-      <div>
         <ion-item *ngFor="let bm of bookmark; let i = index;">
           <ion-avatar slot="start" (click)="handleItemClick(bookmark[i].type, bookmark[i].id)">
             <img src="{{ bookmark[i].imageUrl }}">
           </ion-avatar>
-          <ion-label (click)="handleItemClick(bookmark[i].type, bookmark[i].id)">
-            <h2>{{ bookmark[i].title }}</h2>
+          <ion-label (click)="handleItemClick(bookmark[i].type, bookmark[i].id)" class="bookmark-label">
+            <h2 class="bookmark-title">{{ bookmark[i].title }}</h2>
             <p>{{ bookmark[i].type }}</p>
           </ion-label>
           <ion-icon id="icon-trash" color="secondary" name="trash" (click)="handleButtonDeleteClick(bookmark[i].title)"></ion-icon>
         </ion-item>
-      </div>
     </ion-list>
   </ion-grid>
 </ion-content>

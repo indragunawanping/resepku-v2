@@ -2,7 +2,10 @@
   <ion-grid>
       <ion-row justify-content-center align-items-center style="height: 100%">
         <ion-col size="6">
-            <ion-img class="logo-resepku" src="../../assets/logo-resepku.png"></ion-img>
+<!--            <ion-img class="logo-resepku" src="../../assets/logo-resepku.png"></ion-img>-->
+            <ion-text class="text-resepku" color="primary">
+                <h3>resepku</h3>
+            </ion-text>
         </ion-col>
         <ion-col size="6" >
           <ion-button class="ion-no-margin" class="bt-credits" slots="end" shape="round" [routerLink]="['/credits']">Credits</ion-button>
@@ -12,9 +15,9 @@
 </ion-header>
 
 <ion-content>
-<ion-searchbar placeholder="Mau masak apa hari ini?" color="success"></ion-searchbar>
-<ion-grid>
-  <div class="ion-text-center text" color="primary">
+    <ion-searchbar show-cancel-button="focus" placeholder="Mau masak apa hari ini?" color="success"></ion-searchbar>
+    <ion-grid id="grid-menu">
+  <div class="ion-text-center text">
     <div class="quotes">
         No one is born a great cook. One learns by doing.<br>
     </div>
@@ -78,4 +81,25 @@
         </ion-col>
       </ion-row>
 </ion-grid>
+    <ion-list id="list-menu">
+        <div id="searchRecipeList">
+            <ion-item *ngFor="let idx of searchingData1; let i = index" [routerLink]="['./' + searchingData1[i].type + '/' + searchingData1[i].id]">
+                {{ searchingData1[i].title }}
+            </ion-item>
+            <ion-item *ngFor="let idx of searchingData2; let i = index" [routerLink]="['./' + searchingData2[i].type + '/' + searchingData2[i].id]">
+                {{ searchingData2[i].title }}
+            </ion-item>
+            <ion-item *ngFor="let idx of searchingData3; let i = index" [routerLink]="['./' + searchingData3[i].type + '/' + searchingData3[i].id]">
+                {{ searchingData3[i].title }}
+            </ion-item>
+        </div>
+        <div id="list-none">
+            <ion-item >
+                Tidak menemukan hasil.
+            </ion-item>
+            <h6 class="ion-text-center text-mungkin" color="success">
+                Mungkin yang kamu cari..
+            </h6>
+        </div>
+    </ion-list>
 </ion-content>

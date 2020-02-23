@@ -32,6 +32,17 @@ export class BookmarkPage implements OnInit {
         this.bookmark = [];
         for (const bookmark in bookmarks) {
           if (bookmark) {
+            switch (bookmarks[bookmark].type) {
+              case 'masakanJepang':
+                bookmarks[bookmark].type = 'Masakan Jepang';
+                break;
+              case 'masakanTiongkok':
+                bookmarks[bookmark].type = 'Masakan Tiongkok';
+                break;
+              case 'masakanItalia':
+                bookmarks[bookmark].type = 'Masakan Italia';
+                break;
+            }
             this.bookmark.push(bookmarks[bookmark]);
           }
         }
@@ -98,7 +109,14 @@ export class BookmarkPage implements OnInit {
   }
 
   handleItemClick(recipeType, recipeId) {
+    console.log('recipeTypeBookmark: ', recipeType);
     switch (recipeType) {
+      case 'Vegetarian':
+        recipeType = 'sayuran';
+        break;
+      case 'Ikan/Seafood':
+        recipeType = 'ikan';
+        break;
       case 'Masakan Jepang':
         recipeType = 'masakanJepang';
         break;

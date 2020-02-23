@@ -39,7 +39,7 @@ export class MenusPage implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(
-      paramMap => {
+      async paramMap => {
         if (paramMap.has('menuType')) {
           this.menuType = paramMap.get('menuType');
           this.getMenuTitle();
@@ -61,10 +61,10 @@ export class MenusPage implements OnInit {
         this.menuTitle = 'Nasi';
         break;
       case 'sayuran':
-        this.menuTitle = 'Sayuran';
+        this.menuTitle = 'Vegetarian';
         break;
       case 'ikan':
-        this.menuTitle = 'Ikan';
+        this.menuTitle = 'Ikan/Seafood';
         break;
       case 'mi':
         this.menuTitle = 'Mi';
