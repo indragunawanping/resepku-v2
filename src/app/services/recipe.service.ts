@@ -25,7 +25,7 @@ export class RecipeService {
     const foodType1 = ['daging', 'nasi', 'sayuran'];
     for (const type of foodType1) {
       const recipeRef = firebase.database().ref('resep/' + type);
-      recipeRef.on('value', async (snapshot) => {
+      recipeRef.on('value', (snapshot) => {
         const snapshotVal = snapshot.val();
         for (const index in snapshotVal) {
           if (snapshotVal.hasOwnProperty(index)) {
@@ -35,10 +35,10 @@ export class RecipeService {
               type});
           }
         }
-        await this.storage.set('recipeLocal1', this.recipeLocal1);
+        this.storage.set('recipeLocal1', this.recipeLocal1);
       });
     }
-    await console.log('recipeLocal1', this.recipeLocal1);
+    return this.recipeLocal1;
   }
 
   async setRecipeLocal2() {

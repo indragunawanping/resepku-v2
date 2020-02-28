@@ -13,7 +13,7 @@ export interface SearchingData {
   type: string;
 }
 
-let listTitle = [];
+const listTitle = [];
 let listJaroDistance: Distance[] = [];
 let querySearch = '';
 
@@ -41,28 +41,34 @@ async function getSugesstion() {
       const end = Math.min(i + maxMatchDistance + 1, string2Len);
 
       for (let j = start; j < end; j++) {
-          if (string1Matches[j]) {
-            continue;
-          }
-          if (string1[i] !== string2[j]) {
-            continue;
-          }
-          string1Matches[i] = true;
-          string2Matches[j] = true;
-          matches++;
-          break;
+        if (string1Matches[j]) {
+          continue;
         }
+        if (string1[i] !== string2[j]) {
+          continue;
+        }
+        string1Matches[i] = true;
+        string2Matches[j] = true;
+        matches++;
+        break;
+      }
     }
 
     let k = 0;
     for (let i = 0; i < string1Len; i++) {
       console.log('test');
       // if there are no matches in str1 continue
-      if (!string1Matches[i]) { continue; }
+      if (!string1Matches[i]) {
+        continue;
+      }
       // while there is no match in str2 increment k
-      while (!string2Matches[k]) { k++; }
+      while (!string2Matches[k]) {
+        k++;
+      }
       // increment transpositions
-      if (string1[i] !== string2[k]) { transpositions++; }
+      if (string1[i] !== string2[k]) {
+        transpositions++;
+      }
       k++;
     }
 
@@ -71,7 +77,7 @@ async function getSugesstion() {
 
     jaroDistance = ((matches / string1Len) + (matches / string2Len) + ((matches - transpositions) / matches)) / 3.0;
     if (!isNaN(jaroDistance)) {
-      listJaroDistance.push({title: string2, value: jaroDistance});
+      listJaroDistance.push({ title: string2, value: jaroDistance });
     }
     // console.log('string2: ', string2);
     // console.log('jaroDistance: ', jaroDistance);
@@ -89,20 +95,30 @@ export class BerandaPage implements OnInit {
   searchingData2 = [];
   searchingData3 = [];
   isSearchFocus = true;
-  isNone = false;
 
   constructor(
     public recipeService: RecipeService,
-    public storage: Storage,
+    public storage: Storage
   ) {
-
   }
 
   async ngOnInit() {
     await this.getTitle();
     document.getElementById('list-menu').style.display = 'none';
     const searchbar = document.querySelector('ion-searchbar');
-
+    // await this.storage.get('recipeLocal1').then((local1) => {
+    //   if (local1) {
+    //     console.log('ada');
+    //   } else {
+    //     console.log('tidak ada');
+    //   }
+    //   for (const idx in local1) {
+    //     if (local1.hasOwnProperty(idx)) {
+    //       this.searchingData1.push({ id: local1[idx].id, title: local1[idx].title, type: local1[idx].type });
+    //     }
+    //   }
+    //   console.log('this.searchingData1: ', this.searchingData1);
+    // });
     searchbar.addEventListener('ionInput', this.handleInput);
     searchbar.addEventListener('ionFocus', this.handleFocus);
     searchbar.addEventListener('ionCancel', this.handleCancel);
@@ -112,39 +128,35 @@ export class BerandaPage implements OnInit {
     await this.storage.get('recipeLocal1').then(async (localData) => {
       if (!localData) {
         await this.recipeService.setRecipeLocal1();
-      } else {
-        for (const idx in localData) {
-          if (localData.hasOwnProperty(idx)) {
-            this.searchingData1.push({id: localData[idx].id, title: localData[idx].title, type: localData[idx].type});
-          }
-        }
-        listTitle = this.searchingData1;
+        await this.getTitle();
       }
     });
-    await this.storage.get('recipeLocal2').then(async (localData) => {
-      if (!localData) {
-        await this.recipeService.setRecipeLocal2();
-      } else {
-        for (const idx in localData) {
-          if (localData.hasOwnProperty(idx)) {
-            this.searchingData2.push({id: localData[idx].id, title: localData[idx].title, type: localData[idx].type});
-          }
-        }
-        listTitle = this.searchingData2;
-      }
-    });
-    await this.storage.get('recipeLocal3').then(async (localData) => {
-      if (!localData) {
-        await this.recipeService.setRecipeLocal3();
-      } else {
-        for (const idx in localData) {
-          if (localData.hasOwnProperty(idx)) {
-            this.searchingData3.push({id: localData[idx].id, title: localData[idx].title, type: localData[idx].type});
-          }
-        }
-        listTitle = this.searchingData3;
-      }
-    });
+
+    // await this.storage.get('recipeLocal2').then(async (localData) => {
+    //   if (!localData) {
+    //     await this.recipeService.setRecipeLocal2();
+    //   }
+    //
+    //   for (const idx in localData) {
+    //     if (localData.hasOwnProperty(idx)) {
+    //       this.searchingData2.push({ id: localData[idx].id, title: localData[idx].title, type: localData[idx].type });
+    //     }
+    //   }
+    //   listTitle = this.searchingData2;
+    // });
+    //
+    // await this.storage.get('recipeLocal3').then(async (localData) => {
+    //   if (!localData) {
+    //     await this.recipeService.setRecipeLocal3();
+    //   }
+    //
+    //   for (const idx in localData) {
+    //     if (localData.hasOwnProperty(idx)) {
+    //       this.searchingData3.push({ id: localData[idx].id, title: localData[idx].title, type: localData[idx].type });
+    //     }
+    //   }
+    //   listTitle = this.searchingData3;
+    // });
   }
 
   handleInput(event) {

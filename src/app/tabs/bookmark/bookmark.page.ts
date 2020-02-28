@@ -3,6 +3,7 @@ import { Bookmark, StorageService } from '../../services/storage.service';
 import { Storage } from '@ionic/storage';
 import { AlertController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { SearchingData } from '../beranda/beranda.page';
 
 @Component({
   selector: 'app-bookmark',
@@ -11,9 +12,9 @@ import { Router } from '@angular/router';
 })
 export class BookmarkPage implements OnInit {
   bookmark: Bookmark[] = [];
-  ionViewWillEnter() {
-    this.getBookmark();
-  }
+  searchingData1: SearchingData[] = [];
+  searchingData2 = [];
+  searchingData3 = [];
   constructor(
     public storage: Storage,
     public alertController: AlertController,
