@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipeService } from '../../services/recipe.service';
 import { Storage } from '@ionic/storage';
+import { LoadingController } from '@ionic/angular';
 
 export interface Distance {
   title: string;
@@ -91,72 +92,40 @@ async function getSugesstion() {
 })
 
 export class BerandaPage implements OnInit {
-  searchingData1: SearchingData[] = [];
-  searchingData2 = [];
-  searchingData3 = [];
+  searchingData: SearchingData[] = [];
   isSearchFocus = true;
+  isLoading = true;
 
   constructor(
     public recipeService: RecipeService,
-    public storage: Storage
+    public storage: Storage,
+    public loadingController: LoadingController
   ) {
   }
 
   async ngOnInit() {
+    this.presentLoading();
     await this.getTitle();
     document.getElementById('list-menu').style.display = 'none';
     const searchbar = document.querySelector('ion-searchbar');
-    // await this.storage.get('recipeLocal1').then((local1) => {
-    //   if (local1) {
-    //     console.log('ada');
-    //   } else {
-    //     console.log('tidak ada');
-    //   }
-    //   for (const idx in local1) {
-    //     if (local1.hasOwnProperty(idx)) {
-    //       this.searchingData1.push({ id: local1[idx].id, title: local1[idx].title, type: local1[idx].type });
-    //     }
-    //   }
-    //   console.log('this.searchingData1: ', this.searchingData1);
-    // });
     searchbar.addEventListener('ionInput', this.handleInput);
     searchbar.addEventListener('ionFocus', this.handleFocus);
     searchbar.addEventListener('ionCancel', this.handleCancel);
   }
 
-  async getTitle(): Promise<any> {
-    await this.storage.get('recipeLocal1').then(async (localData) => {
-      if (!localData) {
-        await this.recipeService.setRecipeLocal1();
-        await this.getTitle();
-      }
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Please wait...',
+      duration: 500
     });
+    await loading.present();
 
-    // await this.storage.get('recipeLocal2').then(async (localData) => {
-    //   if (!localData) {
-    //     await this.recipeService.setRecipeLocal2();
-    //   }
-    //
-    //   for (const idx in localData) {
-    //     if (localData.hasOwnProperty(idx)) {
-    //       this.searchingData2.push({ id: localData[idx].id, title: localData[idx].title, type: localData[idx].type });
-    //     }
-    //   }
-    //   listTitle = this.searchingData2;
-    // });
-    //
-    // await this.storage.get('recipeLocal3').then(async (localData) => {
-    //   if (!localData) {
-    //     await this.recipeService.setRecipeLocal3();
-    //   }
-    //
-    //   for (const idx in localData) {
-    //     if (localData.hasOwnProperty(idx)) {
-    //       this.searchingData3.push({ id: localData[idx].id, title: localData[idx].title, type: localData[idx].type });
-    //     }
-    //   }
-    //   listTitle = this.searchingData3;
-    // });
+    const { role, data } = await loading.onDidDismiss();
+    console.log('Loading dismissed!');
+  }
+
+  async getTitle() {
+    this.searchingData = await this.recipeService.getRecipe();
   }
 
   handleInput(event) {
