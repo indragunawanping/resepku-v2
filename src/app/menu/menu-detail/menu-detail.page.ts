@@ -35,6 +35,7 @@ export class MenuDetailPage implements OnInit {
           this.menuType = paramMap.get('menuType');
           this.menuIndex = paramMap.get('menuIndex');
           this.recipeData = this.recipeService.getRecipeSvc(this.menuType, this.menuIndex);
+          console.log('masuk ke menu detail: ');
         } else {
           return;
         }

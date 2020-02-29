@@ -94,7 +94,6 @@ async function getSugesstion() {
 export class BerandaPage implements OnInit {
   searchingData: SearchingData[] = [];
   isSearchFocus = true;
-  isLoading = true;
 
   constructor(
     public recipeService: RecipeService,
@@ -116,12 +115,9 @@ export class BerandaPage implements OnInit {
   async presentLoading() {
     const loading = await this.loadingController.create({
       message: 'Please wait...',
-      duration: 500
+      duration: 1000
     });
     await loading.present();
-
-    const { role, data } = await loading.onDidDismiss();
-    console.log('Loading dismissed!');
   }
 
   async getTitle() {

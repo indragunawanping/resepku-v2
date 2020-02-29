@@ -12,9 +12,9 @@ import { SearchingData } from '../beranda/beranda.page';
 })
 export class BookmarkPage implements OnInit {
   bookmark: Bookmark[] = [];
-  searchingData1: SearchingData[] = [];
-  searchingData2 = [];
-  searchingData3 = [];
+  ionViewWillEnter() {
+    this.getBookmark();
+  }
   constructor(
     public storage: Storage,
     public alertController: AlertController,
