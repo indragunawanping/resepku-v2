@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { RecipeService } from '../../services/recipe.service';
 import { Storage } from '@ionic/storage';
 import { LoadingController } from '@ionic/angular';
+import { StorageService } from '../../services/storage.service';
+import { Router } from '@angular/router';
 
 export interface Distance {
   title: string;
@@ -12,78 +14,10 @@ export interface SearchingData {
   id: string;
   title: string;
   type: string;
+  imageUrl: string;
 }
 
-const listTitle = [];
-let listJaroDistance: Distance[] = [];
 let querySearch = '';
-
-async function getSugesstion() {
-  console.log('jalan: ', querySearch);
-  listJaroDistance = [];
-  const string1 = querySearch.toLowerCase();
-  const string1Len = string1.length;
-
-  for (const string2 of listTitle) {
-    console.log('test');
-    let jaroDistance = 0;
-    let matches = 0;
-    const string2Len = string2.length;
-    let transpositions = 0;
-
-    const string1Matches = [];
-    const string2Matches = [];
-
-    const maxMatchDistance = Math.floor(string2Len / 2) - 1;
-
-    for (let i = 0; i < string1Len; i++) {
-      console.log('test');
-      const start = Math.max(0, i - maxMatchDistance);
-      const end = Math.min(i + maxMatchDistance + 1, string2Len);
-
-      for (let j = start; j < end; j++) {
-        if (string1Matches[j]) {
-          continue;
-        }
-        if (string1[i] !== string2[j]) {
-          continue;
-        }
-        string1Matches[i] = true;
-        string2Matches[j] = true;
-        matches++;
-        break;
-      }
-    }
-
-    let k = 0;
-    for (let i = 0; i < string1Len; i++) {
-      console.log('test');
-      // if there are no matches in str1 continue
-      if (!string1Matches[i]) {
-        continue;
-      }
-      // while there is no match in str2 increment k
-      while (!string2Matches[k]) {
-        k++;
-      }
-      // increment transpositions
-      if (string1[i] !== string2[k]) {
-        transpositions++;
-      }
-      k++;
-    }
-
-    console.log('test');
-    transpositions /= 2;
-
-    jaroDistance = ((matches / string1Len) + (matches / string2Len) + ((matches - transpositions) / matches)) / 3.0;
-    if (!isNaN(jaroDistance)) {
-      listJaroDistance.push({ title: string2, value: jaroDistance });
-    }
-    // console.log('string2: ', string2);
-    // console.log('jaroDistance: ', jaroDistance);
-  }
-}
 
 @Component({
   selector: 'app-beranda',
@@ -94,11 +28,14 @@ async function getSugesstion() {
 export class BerandaPage implements OnInit {
   searchingData: SearchingData[] = [];
   isSearchFocus = true;
+  searchQuery: any;
 
   constructor(
     public recipeService: RecipeService,
     public storage: Storage,
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
+    public storageService: StorageService,
+    private router: Router
   ) {
   }
 
@@ -138,18 +75,6 @@ export class BerandaPage implements OnInit {
         }
         if (countFalse === itemList.length) {
           document.getElementById('list-none').style.display = 'block';
-          try {
-            // setTimeout(getSugesstion, 1000);
-            // tslint:disable-next-line:only-arrow-functions
-            // listJaroDistance.sort(function(a, b) {return b.value - a.value; } );
-            // for (const jaro in listJaroDistance) {
-            //   if (jaro) {
-            //     console.log(jaro , listJaroDistance[jaro]);
-            //   }
-            // }
-          } catch (e) {
-            console.log('Error: ', e);
-          }
         } else {
           document.getElementById('list-none').style.display = 'none';
         }
@@ -166,11 +91,101 @@ export class BerandaPage implements OnInit {
   handleFocus() {
     this.isSearchFocus = true;
     document.getElementById('grid-menu').style.display = 'none';
-
   }
 
   handleCancel() {
     this.isSearchFocus = false;
     document.getElementById('grid-menu').style.display = 'block';
+  }
+
+  handleHistoryChange(id, title, type, imageUrl) {
+    this.storageService.updateHistory(id, title, type, imageUrl);
+  }
+
+  jaroDistance(searchQuery) {
+    const listJaroWinklerDistance: Distance[] = [];
+    let counter = 0;
+    console.log('test1');
+    const string1 = searchQuery.toLowerCase();
+    const string1Len = string1.length;
+
+    for (const data of this.searchingData) {
+      counter++;
+      const string2 = data.title.toLowerCase();
+      let jaroDistance = 0;
+      let jaroWinklerDistance = 0;
+      let totalPrefix = 0;
+      let matches = 0;
+      const string2Len = string2.length;
+      let transpositions = 0;
+
+      const string1Matches = [];
+      const string2Matches = [];
+
+      const maxMatchDistance = Math.floor(string2Len / 2) - 1;
+
+      for (let i = 0; i < string1Len; i++) {
+        const start = Math.max(0, i - maxMatchDistance);
+        const end = Math.min(i + maxMatchDistance + 1, string2Len);
+
+        for (let j = start; j < end; j++) {
+          if (string1Matches[j]) {
+            continue;
+          }
+          if (string1[i] !== string2[j]) {
+            continue;
+          }
+          string1Matches[i] = true;
+          string2Matches[j] = true;
+          matches++;
+          break;
+        }
+      }
+
+      let k = 0;
+      for (let a = 0; a < string1Len; a++) {
+        // // if there are no matches in str1 continue
+        if (!string1Matches[a]) {
+          continue;
+        }
+        // // while there is no match in str2 increment k
+        for (const string2match of string2Matches) {
+          if (string2match === true) {
+            break;
+          }
+        }
+        // // increment transpositions
+        if (string1[a] !== string2[k]) {
+          transpositions++;
+        }
+        k++;
+      }
+
+      transpositions /= 2;
+
+      jaroDistance = ((matches / string1Len) + (matches / string2Len) + ((matches - transpositions) / matches)) / 3.0;
+
+      for (let i = 0; i < 4; i++) {
+        if (string1[i] === string2[i]) {
+          totalPrefix++;
+        }
+      }
+
+      jaroWinklerDistance = jaroDistance + (totalPrefix * 0.1 * (1 - jaroDistance));
+
+
+      if (jaroWinklerDistance >= 0.7) {
+        listJaroWinklerDistance.push({
+          title: string2,
+          value: jaroWinklerDistance
+        });
+      }
+    }
+    listJaroWinklerDistance.sort((a, b) => (a.value < b.value) ? 1 : -1);
+    console.log('jaroWinklerDistance: ', listJaroWinklerDistance);
+  }
+
+  handleSearchButtonClick() {
+    this.jaroDistance(this.searchQuery);
   }
 }

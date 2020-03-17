@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RecipeService } from '../../services/recipe.service';
-import { Bookmark, StorageService } from '../../services/storage.service';
+import { DataStorage, StorageService } from '../../services/storage.service';
 import { Storage } from '@ionic/storage';
 import { ToastController } from '@ionic/angular';
 
@@ -14,7 +14,7 @@ export class MenuDetailPage implements OnInit {
   menuType: string;
   menuIndex: string;
   recipeData: any;
-  bookmark: Bookmark[] = [];
+  bookmark: DataStorage[] = [];
   isBookmark: boolean;
   messageToast: string;
   ionViewWillEnter() {
@@ -35,7 +35,6 @@ export class MenuDetailPage implements OnInit {
           this.menuType = paramMap.get('menuType');
           this.menuIndex = paramMap.get('menuIndex');
           this.recipeData = this.recipeService.getRecipeSvc(this.menuType, this.menuIndex);
-          console.log('masuk ke menu detail: ');
         } else {
           return;
         }
@@ -44,7 +43,7 @@ export class MenuDetailPage implements OnInit {
   }
 
   async getBookmark(): Promise <any> {
-    await this.storage.get('bookmark').then((bookmarks: Bookmark[]) => {
+    await this.storage.get('bookmark').then((bookmarks: DataStorage[]) => {
       if (bookmarks) {
         this.bookmark = [];
         for (const bookmark in bookmarks) {
@@ -54,6 +53,10 @@ export class MenuDetailPage implements OnInit {
         }
       }
     });
+  }
+
+  handleHistory() {
+    console.log('show');
   }
 
   async handleBookmarkChange(recipeId, recipeTitle, recipeImageUrl) {

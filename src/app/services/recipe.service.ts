@@ -6,6 +6,7 @@ export interface SearchRecipe {
   id: string;
   title: string;
   type: string;
+  imageUrl;
 }
 
 @Injectable({
@@ -32,7 +33,8 @@ export class RecipeService {
             this.searchRecipe.push({
               id: index,
               title: snapshotVal[index].judul,
-              type});
+              type,
+              imageUrl: snapshotVal[index].gambar});
           }
         }
       });
@@ -51,6 +53,7 @@ export class RecipeService {
         }
       }
     });
+    console.log('this.recipesDataSvc: ', this.recipesDataSvc);
     return this.recipesDataSvc;
   }
 
@@ -66,7 +69,6 @@ export class RecipeService {
         }
       }
     });
-    console.log('recipeDataSvc: ', this.recipeDataSvc);
     return this.recipeDataSvc;
   }
 }

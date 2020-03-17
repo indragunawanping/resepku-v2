@@ -6,7 +6,7 @@ const routes: Routes = [
   { path: 'tabs', loadChildren: './tabs/tabs.module#TabsPageModule' },
   { path: 'credits', loadChildren: './credits/credits.module#CreditsPageModule' },
   { path: 'tabs/beranda/:menuType', loadChildren: './menu/menus/menus.module#MenusPageModule' },
-  { path: 'tabs/beranda/:menuType/:menuIndex', loadChildren: './menu/menu-detail/menu-detail.module#MenuDetailPageModule' },
+  { path: 'tabs/beranda/:menuType/:menuIndex', loadChildren: './menu/menu-detail/menu-detail.module#MenuDetailPageModule' }
 
   // { path: '', redirectTo: 'home', pathMatch: 'full' },
   // { path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
