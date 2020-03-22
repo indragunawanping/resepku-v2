@@ -4,9 +4,14 @@ import { Storage } from '@ionic/storage';
 
 export interface SearchRecipe {
   id: string;
-  title: string;
-  type: string;
-  imageUrl;
+  bahan?: string;
+  gambar: string;
+  judul: string;
+  lama?: string;
+  langkah?: string;
+  porsi?: string;
+  type?: string;
+  jaroWinklerDistance?: number;
 }
 
 @Injectable({
@@ -17,14 +22,17 @@ export class RecipeService {
   recipesDataSvc: string[] = [];
   recipeDataSvc: string[] = [];
   searchRecipe: SearchRecipe[] = [];
+  mostSimilarRecipe: SearchRecipe[] = [];
+  foodType = ['daging', 'nasi', 'sayuran',
+    'ikan', 'mi', 'kue',
+    'masakanJepang', 'masakanTiongkok', 'masakanItalia'];
 
-  constructor(public storage: Storage) {}
+  constructor(public storage: Storage) {
+
+  }
 
   getRecipe() {
-    const foodType = [ 'daging', 'nasi', 'sayuran',
-                        'ikan', 'mi', 'kue',
-                        'masakanJepang', 'masakanTiongkok', 'masakanItalia' ];
-    for (const type of foodType) {
+    for (const type of this.foodType) {
       const recipeRef = firebase.database().ref('resep/' + type);
       recipeRef.on('value', (snapshot) => {
         const snapshotVal = snapshot.val();
@@ -32,14 +40,51 @@ export class RecipeService {
           if (snapshotVal.hasOwnProperty(index)) {
             this.searchRecipe.push({
               id: index,
-              title: snapshotVal[index].judul,
+              judul: snapshotVal[index].judul,
               type,
-              imageUrl: snapshotVal[index].gambar});
+              gambar: snapshotVal[index].gambar
+            });
           }
         }
       });
     }
     return this.searchRecipe;
+  }
+
+  getSearchedRecipe(listJaroWinklerDistance) {
+    console.log('listJaroWinklerDistance service: ', listJaroWinklerDistance);
+    for (const type of this.foodType) {
+      const recipeRef = firebase.database().ref('resep/' + type);
+      recipeRef.on('value', (snapshot) => {
+        const snapshotVal = snapshot.val();
+        for (const index in snapshotVal) {
+          if (snapshotVal.hasOwnProperty(index)) {
+            for (const listJaroWinkler in listJaroWinklerDistance) {
+              if (listJaroWinklerDistance.hasOwnProperty(listJaroWinkler)) {
+                if ((snapshotVal[index].judul).toLowerCase() === listJaroWinklerDistance[listJaroWinkler].title) {
+                  console.log('sama');
+                  this.mostSimilarRecipe.push({
+                    id: index,
+                    bahan: snapshotVal[index].bahan,
+                    gambar: snapshotVal[index].gambar,
+                    judul: snapshotVal[index].judul,
+                    lama: snapshotVal[index].lama,
+                    langkah: snapshotVal[index].langkah,
+                    porsi: snapshotVal[index].porsi,
+                    type,
+                    jaroWinklerDistance: listJaroWinklerDistance[listJaroWinkler].value
+                  });
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+  }
+
+  setSearchedRecipeEmpty() {
+    this.mostSimilarRecipe = [];
   }
 
   getAllRecipesSvc(path) {

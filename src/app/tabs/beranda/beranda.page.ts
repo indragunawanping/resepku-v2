@@ -12,9 +12,14 @@ export interface Distance {
 
 export interface SearchingData {
   id: string;
-  title: string;
-  type: string;
-  imageUrl: string;
+  bahan?: string;
+  gambar: string;
+  judul: string;
+  lama?: string;
+  langkah?: string;
+  porsi?: string;
+  type?: string;
+  jaroWinklerDistance?: number;
 }
 
 let querySearch = '';
@@ -41,7 +46,11 @@ export class BerandaPage implements OnInit {
 
   async ngOnInit() {
     this.presentLoading();
-    await this.getTitle();
+    console.log('this.searchingData.length: ', this.searchingData.length);
+    if (this.searchingData.length === 0) {
+      console.log('kosong');
+      await this.getTitle();
+    }
     document.getElementById('list-menu').style.display = 'none';
     const searchbar = document.querySelector('ion-searchbar');
     searchbar.addEventListener('ionInput', this.handleInput);
@@ -111,7 +120,7 @@ export class BerandaPage implements OnInit {
 
     for (const data of this.searchingData) {
       counter++;
-      const string2 = data.title.toLowerCase();
+      const string2 = data.judul.toLowerCase();
       let jaroDistance = 0;
       let jaroWinklerDistance = 0;
       let totalPrefix = 0;
@@ -182,6 +191,8 @@ export class BerandaPage implements OnInit {
       }
     }
     listJaroWinklerDistance.sort((a, b) => (a.value < b.value) ? 1 : -1);
+    this.recipeService.getSearchedRecipe(listJaroWinklerDistance);
+    this.router.navigate(['/tabs/beranda/search-result-menu']);
     console.log('jaroWinklerDistance: ', listJaroWinklerDistance);
   }
 

@@ -1,45 +1,54 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { RecipeService } from '../../services/recipe.service';
 import { DataStorage, StorageService } from '../../services/storage.service';
+import { ActivatedRoute } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { ToastController } from '@ionic/angular';
 
+export interface SearchRecipe {
+  id: string;
+  bahan?: string;
+  gambar: string;
+  judul: string;
+  lama?: string;
+  langkah?: string;
+  porsi?: string;
+  type?: string;
+  jaroWinklerDistance?: number;
+}
+
 @Component({
-  selector: 'app-menu-detail',
-  templateUrl: './menu-detail.page.html',
-  styleUrls: ['./menu-detail.page.scss'],
+  selector: 'app-search-result-menu',
+  templateUrl: './search-result-menu.page.html',
+  styleUrls: ['./search-result-menu.page.scss'],
 })
-export class MenuDetailPage implements OnInit {
+export class SearchResultMenuPage implements OnInit {
+  mostSimilarRecipeData: SearchRecipe[] = [];
   menuType: string;
-  menuIndex: string;
-  recipeData: any;
+  menuTitle: string;
   bookmark: DataStorage[] = [];
   isBookmark: boolean;
   messageToast: string;
-  ionViewWillEnter() {
-    this.getBookmark();
-  }
+
   constructor(
     private activatedRoute: ActivatedRoute,
     public recipeService: RecipeService,
     public storageService: StorageService,
     public storage: Storage,
     public toastController: ToastController,
-  ) { }
+  ) {
+    this.getBookmark();
+  }
 
   ngOnInit() {
-    this.activatedRoute.paramMap.subscribe(
-      paramMap => {
-        if (paramMap.has('menuType')) {
-          this.menuType = paramMap.get('menuType');
-          this.menuIndex = paramMap.get('menuIndex');
-          this.recipeData = this.recipeService.getRecipeSvc(this.menuType, this.menuIndex);
-        } else {
-          return;
-        }
-      }
-    );
+    this.mostSimilarRecipeData = this.recipeService.mostSimilarRecipe;
+    console.log('mostSimilarRecipeData: ', this.mostSimilarRecipeData);
+  }
+
+  async handleBookmarkChange(recipeId, recipeTitle, recipeImageUrl) {
+    this.isBookmark = await this.storageService.updateBookmark(recipeId, recipeTitle, this.menuTitle, recipeImageUrl);
+    this.getBookmark();
+    this.presentToast(recipeTitle);
   }
 
   async getBookmark(): Promise <any> {
@@ -55,16 +64,6 @@ export class MenuDetailPage implements OnInit {
     });
   }
 
-  handleHistory() {
-    console.log('show');
-  }
-
-  async handleBookmarkChange(recipeId, recipeTitle, recipeImageUrl) {
-    this.isBookmark = await this.storageService.updateBookmark(recipeId, recipeTitle, this.menuType, recipeImageUrl);
-    this.getBookmark();
-    this.presentToast(recipeTitle);
-  }
-
   async presentToast(recipeTitle) {
     if (this.isBookmark) {
       this.messageToast = 'ditambahkan ke';
@@ -77,4 +76,14 @@ export class MenuDetailPage implements OnInit {
     });
     toast.present();
   }
+
+  handleHistoryChange(id, title, type, imageUrl) {
+    this.storageService.updateHistory(id, title, type, imageUrl);
+    console.log('id, title, type, imageUrl: ', id, title, type, imageUrl);
+  }
+
+  ionViewWillLeave() {
+    this.recipeService.setSearchedRecipeEmpty();
+  }
+
 }

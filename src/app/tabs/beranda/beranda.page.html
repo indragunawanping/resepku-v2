@@ -1,11 +1,11 @@
 <ion-header color="tertiary">
     <ion-grid>
-        <ion-row justify-content-center align-items-center style="height: 100%">
+        <ion-row class="ion-align-items-center ion-justify-content-center" style="height: 100%">
             <ion-col size="6">
-                <!--            <ion-img class="logo-resepku" src="../../assets/logo-resepku.png"></ion-img>-->
-                <ion-text class="text-resepku" color="primary">
-                    <h3>resepku</h3>
-                </ion-text>
+                            <ion-img class="logo-resepku" src="../../assets/logo-resepku.png"></ion-img>
+<!--                <ion-text class="text-resepku" color="primary">-->
+<!--                    <h3>resepku</h3>-->
+<!--                </ion-text>-->
             </ion-col>
             <ion-col size="6">
                 <ion-button class="ion-no-margin" class="bt-credits" slots="end" shape="round"
@@ -18,79 +18,74 @@
 
 <ion-content>
     <ion-row>
-        <ion-col size="10">
-            <ion-searchbar [(ngModel)]="searchQuery" class="search-bar" show-cancel-button="focus" placeholder="Mau masak apa hari ini?"
+        <ion-col>
+            <ion-searchbar [(ngModel)]="searchQuery" class="search-bar" show-cancel-button="focus"
+                           placeholder="Cari resep di sini..."
                            color="success"></ion-searchbar>
         </ion-col>
-        <ion-col>
+        <ion-col size="2.5">
             <ion-fab-button (click)="handleSearchButtonClick()" color="secondary" class="search-button"
                             class="button-fab" size="small">
                 <ion-icon name="search"></ion-icon>
             </ion-fab-button>
         </ion-col>
     </ion-row>
-    <ion-grid id="grid-menu">
-        <div class="ion-text-center text">
-            <div class="quotes">
-                No one is born a great cook. One learns by doing.<br>
-            </div>
-            <ion-text class="bold"> - Julia Child -</ion-text>
+    <div class="ion-text-center text">
+        <div class="quotes">
+            No one is born a great cook. One learns by doing.<br>
         </div>
+        <ion-text class="bold"> - Julia Child -</ion-text>
+    </div>
+    <ion-grid>
         <ion-row>
-            <ion-col>
-                <ion-row>
-                    <ion-card [routerLink]="['./', 'daging']">
-                        <ion-img class="icon-recipe" src="../../assets/icon-daging.png"></ion-img>
-                    </ion-card>
-                </ion-row>
+            <ion-col class="col-menu">
+                <div [routerLink]="['./', 'daging']">
+                    <ion-img class="icon-recipe" src="../../assets/icon-daging.png"></ion-img>
+                </div>
             </ion-col>
-            <ion-col>
-                <ion-card [routerLink]="['./', 'nasi']">
+            <ion-col class="col-menu">
+                <div [routerLink]="['./', 'nasi']">
                     <ion-img src="../../assets/icon-nasi.png"></ion-img>
-                </ion-card>
+                </div>
             </ion-col>
-            <ion-col>
-                <ion-card [routerLink]="['./', 'sayuran']">
+            <ion-col class="col-menu">
+                <div [routerLink]="['./', 'sayuran']">
                     <ion-img src="../../assets/icon-sayuran.png"></ion-img>
-                </ion-card>
+                </div>
             </ion-col>
         </ion-row>
         <ion-row>
-            <ion-col>
-                <ion-row>
-                    <ion-card [routerLink]="['./', 'ikan']">
-                        <ion-img class="icon-recipe" src="../../assets/icon-ikan.png"></ion-img>
-                    </ion-card>
-                </ion-row>
+            <ion-col class="col-menu">
+                <div [routerLink]="['./', 'ikan']">
+                    <ion-img class="icon-recipe" src="../../assets/icon-ikan.png"></ion-img>
+                </div>
             </ion-col>
-            <ion-col>
-                <ion-card [routerLink]="['./', 'mi']">
+            <ion-col class="col-menu">
+                <div [routerLink]="['./', 'mi']">
                     <ion-img src="../../assets/icon-mi.png"></ion-img>
-                </ion-card>
+                </div>
             </ion-col>
-            <ion-col>
-                <ion-card [routerLink]="['./', 'kue']">
+            <ion-col class="col-menu">
+                <div [routerLink]="['./', 'kue']">
                     <ion-img src="../../assets/icon-kue.png"></ion-img>
-                </ion-card>
+                </div>
             </ion-col>
         </ion-row>
         <ion-row>
-            <ion-col>
-                <ion-row>
-                    <ion-card [routerLink]="['./', 'masakanJepang']">
-                        <ion-img class="icon-recipe" src="../../assets/icon-masakan_jepang.png"></ion-img>
-                    </ion-card>
-                </ion-row>
+            <ion-col class="col-menu">
+                <div [routerLink]="['./', 'masakanJepang']">
+                    <ion-img class="icon-recipe" src="../../assets/icon-masakan_jepang.png"></ion-img>
+                </div>
             </ion-col>
-            <ion-col>
-                <ion-card [routerLink]="['./', 'masakanTiongkok']">
+            <ion-col class="col-menu">
+                <div [routerLink]="['./', 'masakanTiongkok']">
                     <ion-img src="../../assets/icon-masakan_tiongkok.png"></ion-img>
-                </ion-card>
+                </div>
             </ion-col>
-            <ion-col>
-                <ion-card [routerLink]="['./', 'masakanItalia']">
+            <ion-col class="col-menu">
+                <div [routerLink]="['./', 'masakanItalia']">
                     <ion-img src="../../assets/icon-masakan_italia.png"></ion-img>
-                </ion-card>
+                </div>
             </ion-col>
         </ion-row>
     </ion-grid>
@@ -98,9 +93,9 @@
         <div id="searchRecipeList">
             <ion-item *ngFor="let idx of searchingData; let i = index"
                       [routerLink]="['./' + searchingData[i].type + '/' + searchingData[i].id]"
-                      (click)="handleHistoryChange(searchingData[i].id, searchingData[i].title, searchingData[i].type, searchingData[i].imageUrl)"
+                      (click)="handleHistoryChange(searchingData[i].id, searchingData[i].judul, searchingData[i].type, searchingData[i].gambar)"
             >
-                {{ searchingData[i].title }}
+                {{ searchingData[i].judul }}
             </ion-item>
         </div>
         <div id="list-none">

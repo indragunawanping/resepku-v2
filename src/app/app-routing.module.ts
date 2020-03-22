@@ -5,8 +5,22 @@ const routes: Routes = [
   { path: '', redirectTo: 'tabs', pathMatch: 'full' },
   { path: 'tabs', loadChildren: './tabs/tabs.module#TabsPageModule' },
   { path: 'credits', loadChildren: './credits/credits.module#CreditsPageModule' },
-  { path: 'tabs/beranda/:menuType', loadChildren: './menu/menus/menus.module#MenusPageModule' },
-  { path: 'tabs/beranda/:menuType/:menuIndex', loadChildren: './menu/menu-detail/menu-detail.module#MenuDetailPageModule' }
+  {
+    path: 'tabs/beranda/search-result-menu',
+    loadChildren: './menu/search-result-menu/search-result-menu.module#SearchResultMenuPageModule'
+  },
+  {
+    path: 'tabs/beranda/:menuType',
+    loadChildren: './menu/menus/menus.module#MenusPageModule'
+  },
+  {
+    path: 'tabs/beranda/:menuType/:menuIndex',
+    loadChildren: './menu/menu-detail/menu-detail.module#MenuDetailPageModule'
+  },
+  // {
+  //   path: 'search-result-menu',
+  //   loadChildren: () => import('./menu/search-result-menu/search-result-menu.module').then(m => m.SearchResultMenuPageModule)
+  // },
 
   // { path: '', redirectTo: 'home', pathMatch: 'full' },
   // { path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
@@ -42,4 +56,5 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

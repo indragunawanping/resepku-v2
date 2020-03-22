@@ -1,63 +1,63 @@
-.logo-resepku{
-    max-width: 50px;
-    text-align: center;
-    padding: none;
+.logo-resepku {
+  max-width: 50px;
+  text-align: center;
+  padding: none;
 }
 
-h3{
-    margin: 0px !important;
+h3 {
+  margin: 0px !important;
 }
 
-.text-resepku{
-    font-weight: bold;
+.text-resepku {
+  font-weight: bold;
 }
 
-.icon-recipe{
+.icon-recipe {
+  width: 100% !important;
+  margin: auto !important;
+  display: block !important;
+}
+
+ion-grid {
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+}
+
+.bt-credits {
+  max-height: 30px;
+  max-width: 80px;
+  float: right;
+}
+
+ion-row {
+  ion-card {
     width: 100% !important;
-    margin: auto !important;
-    display: block !important;
+    margin: 0 !important;
+  }
 }
 
-ion-grid{
-    margin-left: 0.5%;
-    margin-right: 0.5%;
+.text {
+  font-size: small;
+  margin-top: 15px;
+  margin-bottom: 25px;
 }
 
-.bt-credits{
-    max-height: 30px;
-    max-width: 80px;
-    float: right;
+.bold {
+  font-weight: bold
 }
 
-ion-row{
-    ion-card{
-        width:100% !important;
-        margin: 0 !important;
-    }
+.quotes {
+  margin-bottom: 3px !important;
 }
 
-.text{
-    font-size: small;
-    margin-top: 15px;
-    margin-bottom: 25px;
+.search-bar {
+  padding-right: 0px !important;
 }
 
-.bold{
-    font-weight: bold
-}
-
-.quotes{
-    margin-bottom: 3px !important;
-}
-
-.search-bar{
-    padding-right: 0px !important;
-}
-
-.search-button{
-    width: 85%;
-    padding-right: 5% !important;
-    padding-top: 5% !important;
-    margin-top: 5% !important;
-    height: 80%;
+.search-button {
+  width: 85%;
+  padding-right: 0% !important;
+  padding-top: 5% !important;
+  margin-top: 5% !important;
+  height: 80%;
 }

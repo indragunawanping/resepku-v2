@@ -113,7 +113,7 @@ export class MenusPage implements OnInit {
     }
     const toast = await this.toastController.create({
       message: recipeTitle + ' berhasil ' + this.messageToast + ' Bookmark.',
-      duration: 1500
+      duration: 1000
     });
     toast.present();
   }

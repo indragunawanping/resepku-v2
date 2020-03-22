@@ -101,7 +101,7 @@ export class BookmarkPage implements OnInit {
   async deleteAllBookmarkToast() {
     const toast = await this.toastController.create({
       message: 'Semua Bookmark berhasil dihapus.',
-      duration: 1500
+      duration: 1000
     });
     toast.present();
   }
@@ -130,7 +130,7 @@ export class BookmarkPage implements OnInit {
   async deleteBookmarkToast(recipeTitle) {
     const toast = await this.toastController.create({
       message: recipeTitle + ' berhasil dihapus dari Bookmark.',
-      duration: 1500
+      duration: 1000
     });
     toast.present();
   }
