@@ -1,57 +1,72 @@
 <ion-header>
-  <ion-toolbar color="secondary">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref=""></ion-back-button>
-    </ion-buttons>
-    <ion-title>Hasil Pencarian</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="secondary">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref=""></ion-back-button>
+        </ion-buttons>
+        <ion-title>Hasil Pencarian</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="content-center">
-    <img class="logo-resepku2" src="../../../assets/logo-resepku-2.png" alt="">
-  </div>
-  <ion-grid>
-    <ion-row>
-      <ion-col *ngFor="let recipes of mostSimilarRecipeData; let i = index;" align-items-stretch size="6">
-        <ion-card
-                class="card-flex"
-        >
-          <ion-fab-button class="button-fab" size="small" color="success"
-                          (click)="handleBookmarkChange(i, mostSimilarRecipeData[i]['judul'], mostSimilarRecipeData[i]['gambar'])">
-            <img id="fabBookmarkOutline" class="icon-fab" src="../../../assets/icon-bookmark-outline.png"
-                 alt="icon-bookmark-outline.png">
-            <div *ngFor="let bm of bookmark; let j = index" id="fabDiv">
-              <img *ngIf="bookmark[j].title === mostSimilarRecipeData[i]['judul']" class="icon-fab"
-                   src="../../../assets/icon-bookmark-fill.png" alt="icon-bookmark-fill.png">
+    <ion-grid style="height: 100%">
+        <ion-row *ngIf="mostSimilarRecipeData.length === 0" justify-content-center align-items-center
+                 style="height: 100%">
+            <ion-col text-center size="8" align-self-center>
+                <ion-img class="ion-padding" src="../../assets/none-similar.png"></ion-img>
+                <br>
+                <ion-label color="success">Tidak ada hasil pencarian termirip</ion-label>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <div class="content-center">
+                <img class="logo-resepku2" src="../../../assets/logo-resepku-2.png" alt="">
             </div>
-          </ion-fab-button>
-          <ion-img (click)="handleHistoryChange(i, mostSimilarRecipeData[i]['judul'], mostSimilarRecipeData[i]['type'], mostSimilarRecipeData[i]['gambar'])" [routerLink]="['../', mostSimilarRecipeData[i]['type'], mostSimilarRecipeData[i]['id']]" *ngIf="mostSimilarRecipeData[i]['gambar'] !== 'N/A'"
-                   class="thumbnail-recipe" src="{{mostSimilarRecipeData[i]['gambar']}}"></ion-img>
-          <img (click)="handleHistoryChange(i, mostSimilarRecipeData[i]['judul'], mostSimilarRecipeData[i]['type'], mostSimilarRecipeData[i]['gambar'])" [routerLink]="['./', mostSimilarRecipeData[i]['type'], mostSimilarRecipeData[i]['id']]" *ngIf="mostSimilarRecipeData[i]['gambar'] === 'N/A'"
-               src="../../../assets/no-image-available.png" alt="no-image-available">
-          <ion-card-content (click)="handleHistoryChange(i, mostSimilarRecipeData[i]['judul'], mostSimilarRecipeData[i]['type'], mostSimilarRecipeData[i]['gambar'])" [routerLink]="['./', mostSimilarRecipeData[i]['type'], mostSimilarRecipeData[i]['id']]">
-            <div class="text-title">
-              {{mostSimilarRecipeData[i]['judul']}}
-            </div>
-            <br>
-            <ion-row>
-              <ion-col size="6" no-padding>
-                <ion-icon color="primary" name="pizza"></ion-icon>
-                <span class="info-content">
+            <ion-col *ngFor="let recipes of mostSimilarRecipeData; let i = index;" align-items-stretch size="6">
+                <ion-card
+                        class="card-flex"
+                >
+                    <ion-fab-button class="button-fab" size="small" color="success"
+                                    (click)="handleBookmarkChange(i, mostSimilarRecipeData[i]['judul'], mostSimilarRecipeData[i]['type'], mostSimilarRecipeData[i]['gambar'])">
+                        <img id="fabBookmarkOutline" class="icon-fab" src="../../../assets/icon-bookmark-outline.png"
+                             alt="icon-bookmark-outline.png">
+                        <div *ngFor="let bm of bookmark; let j = index" id="fabDiv">
+                            <img *ngIf="bookmark[j].title === mostSimilarRecipeData[i]['judul']" class="icon-fab"
+                                 src="../../../assets/icon-bookmark-fill.png" alt="icon-bookmark-fill.png">
+                        </div>
+                    </ion-fab-button>
+                    <ion-img
+                            (click)="handleHistoryChange(i, mostSimilarRecipeData[i]['judul'], mostSimilarRecipeData[i]['type'], mostSimilarRecipeData[i]['gambar'])"
+                            [routerLink]="['../', mostSimilarRecipeData[i]['type'], mostSimilarRecipeData[i]['id']]"
+                            *ngIf="mostSimilarRecipeData[i]['gambar'] !== 'N/A'"
+                            class="thumbnail-recipe" src="{{mostSimilarRecipeData[i]['gambar']}}"></ion-img>
+                    <img (click)="handleHistoryChange(i, mostSimilarRecipeData[i]['judul'], mostSimilarRecipeData[i]['type'], mostSimilarRecipeData[i]['gambar'])"
+                         [routerLink]="['./', mostSimilarRecipeData[i]['type'], mostSimilarRecipeData[i]['id']]"
+                         *ngIf="mostSimilarRecipeData[i]['gambar'] === 'N/A'" class="thumbnail-recipe"
+                         src="../../../assets/no-image-available.png" alt="no-image-available">
+                    <ion-card-content
+                            (click)="handleHistoryChange(i, mostSimilarRecipeData[i]['judul'], mostSimilarRecipeData[i]['type'], mostSimilarRecipeData[i]['gambar'])"
+                            [routerLink]="['./', mostSimilarRecipeData[i]['type'], mostSimilarRecipeData[i]['id']]">
+                        <div class="text-title">
+                            {{mostSimilarRecipeData[i]['judul']}}
+                        </div>
+                        <br>
+                        <ion-row>
+                            <ion-col size="6" no-padding>
+                                <ion-icon color="primary" name="pizza"></ion-icon>
+                                <span class="info-content">
                          {{mostSimilarRecipeData[i]['porsi']}}
                       </span>
-              </ion-col>
-              <ion-col size="6" no-padding>
-                <ion-icon color="primary" name="timer"></ion-icon>
-                <span class="info-content">
+                            </ion-col>
+                            <ion-col size="6" no-padding>
+                                <ion-icon color="primary" name="timer"></ion-icon>
+                                <span class="info-content">
                          {{mostSimilarRecipeData[i]['lama']}}
                       </span>
-              </ion-col>
-            </ion-row>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+                            </ion-col>
+                        </ion-row>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>

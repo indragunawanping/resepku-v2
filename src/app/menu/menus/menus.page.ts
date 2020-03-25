@@ -23,6 +23,7 @@ export class MenusPage implements OnInit {
   bookmark: DataStorage[] = [];
   isBookmark: boolean;
   messageToast: string;
+
   ionViewWillEnter() {
     this.getBookmark();
   }
@@ -86,7 +87,7 @@ export class MenusPage implements OnInit {
     }
   }
 
-  async getBookmark(): Promise <any> {
+  async getBookmark(): Promise<any> {
     await this.storage.get('bookmark').then((bookmarks: DataStorage[]) => {
       if (bookmarks) {
         this.bookmark = [];
@@ -113,13 +114,12 @@ export class MenusPage implements OnInit {
     }
     const toast = await this.toastController.create({
       message: recipeTitle + ' berhasil ' + this.messageToast + ' Bookmark.',
-      duration: 1000
+      duration: 500
     });
     toast.present();
   }
 
   handleHistoryChange(id, title, type, imageUrl) {
     this.storageService.updateHistory(id, title, type, imageUrl);
-    console.log('id, title, type, imageUrl: ', id, title, type, imageUrl);
   }
 }

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { AlertController, ToastController } from '@ionic/angular';
 import { DataStorage, StorageService } from '../../services/storage.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-history',
@@ -20,10 +19,10 @@ export class HistoryPage implements OnInit {
     public storage: Storage,
     public alertController: AlertController,
     public storageService: StorageService,
-    private router: Router,
     public toastController: ToastController
   ) {
   }
+
   ngOnInit() {
     // this.getHistory();
   }
@@ -36,13 +35,13 @@ export class HistoryPage implements OnInit {
           if (history) {
             switch (histories[history].type) {
               case 'masakanJepang':
-                histories[history].type = 'Masakan Jepang';
+                histories[history].type = 'masakan jepang';
                 break;
               case 'masakanTiongkok':
-                histories[history].type = 'Masakan Tiongkok';
+                histories[history].type = 'masakan tiongkok';
                 break;
               case 'masakanItalia':
-                histories[history].type = 'Masakan Italia';
+                histories[history].type = 'masakan italia';
                 break;
             }
             this.history.push(histories[history]);
@@ -76,13 +75,9 @@ export class HistoryPage implements OnInit {
   async deleteAllHistoryToast() {
     const toast = await this.toastController.create({
       message: 'Semua history berhasil dihapus.',
-      duration: 1000
+      duration: 500
     });
     toast.present();
-  }
-
-  handleItemClick(recipeType, recipeId) {
-
   }
 
   async handleButtonDeleteClick(recipeTitle) {
@@ -109,7 +104,7 @@ export class HistoryPage implements OnInit {
   async deleteHistoryToast(recipeTitle) {
     const toast = await this.toastController.create({
       message: recipeTitle + ' berhasil dihapus dari History.',
-      duration: 1000
+      duration: 500
     });
     toast.present();
   }

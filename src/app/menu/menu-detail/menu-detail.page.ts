@@ -17,16 +17,19 @@ export class MenuDetailPage implements OnInit {
   bookmark: DataStorage[] = [];
   isBookmark: boolean;
   messageToast: string;
+
   ionViewWillEnter() {
     this.getBookmark();
   }
+
   constructor(
     private activatedRoute: ActivatedRoute,
     public recipeService: RecipeService,
     public storageService: StorageService,
     public storage: Storage,
     public toastController: ToastController,
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(
@@ -42,7 +45,7 @@ export class MenuDetailPage implements OnInit {
     );
   }
 
-  async getBookmark(): Promise <any> {
+  async getBookmark(): Promise<any> {
     await this.storage.get('bookmark').then((bookmarks: DataStorage[]) => {
       if (bookmarks) {
         this.bookmark = [];
@@ -53,10 +56,6 @@ export class MenuDetailPage implements OnInit {
         }
       }
     });
-  }
-
-  handleHistory() {
-    console.log('show');
   }
 
   async handleBookmarkChange(recipeId, recipeTitle, recipeImageUrl) {
@@ -73,7 +72,7 @@ export class MenuDetailPage implements OnInit {
     }
     const toast = await this.toastController.create({
       message: recipeTitle + ' berhasil ' + this.messageToast + ' Bookmark.',
-      duration: 1000
+      duration: 500
     });
     toast.present();
   }

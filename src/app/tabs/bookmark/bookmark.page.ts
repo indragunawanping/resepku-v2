@@ -54,7 +54,6 @@ export class BookmarkPage implements OnInit {
   }
 
   handleItemClick(recipeType, recipeId) {
-    console.log('recipeTypeBookmark: ', recipeType);
     switch (recipeType) {
       case 'Vegetarian':
         recipeType = 'sayuran';
@@ -101,7 +100,7 @@ export class BookmarkPage implements OnInit {
   async deleteAllBookmarkToast() {
     const toast = await this.toastController.create({
       message: 'Semua Bookmark berhasil dihapus.',
-      duration: 1000
+      duration: 500
     });
     toast.present();
   }
@@ -130,7 +129,7 @@ export class BookmarkPage implements OnInit {
   async deleteBookmarkToast(recipeTitle) {
     const toast = await this.toastController.create({
       message: recipeTitle + ' berhasil dihapus dari Bookmark.',
-      duration: 1000
+      duration: 500
     });
     toast.present();
   }

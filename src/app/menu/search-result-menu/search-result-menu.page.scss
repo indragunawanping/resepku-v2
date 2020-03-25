@@ -1,11 +1,11 @@
-ion-row{
-  ion-card{
-    width:100% !important;
+ion-row {
+  ion-card {
+    width: 100% !important;
     margin: 0 !important;
   }
 }
 
-.text-title{
+.text-title {
   display: block; /* Fallback for non-webkit */
   display: -webkit-box;
   max-width: 400px;
@@ -20,55 +20,56 @@ ion-row{
   text-overflow: ellipsis;
 }
 
-.thumbnail-recipe{
+.thumbnail-recipe {
   width: 100%;
   height: 165px;
   object-fit: cover !important;
 }
 
-.text-content{
+.text-content {
   font-size: 8px;
 }
 
-.card-flex{
+.card-flex {
   display: flex !important;
   flex-direction: column !important;
   width: 100% !important;
   margin: 0 !important;
 }
 
-ion-icon{
+ion-icon {
   height: 100%;
   vertical-align: text-bottom;
 }
 
-.info-content{
+.info-content {
   font-size: 15px;
   vertical-align: text-bottom;
 }
 
-.logo-resepku2{
+.logo-resepku2 {
   padding-top: 10px;
+  padding-bottom: 5px;
   width: 30%;
 }
 
-.button-fab{
+.button-fab {
   position: absolute;
   right: 0px;
 }
 
-.icon-fab{
+.icon-fab {
   max-width: 10px;
 }
 
-.content-center{
+.content-center {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-#fabBookmarkOutline{
-  position:absolute;
+#fabBookmarkOutline {
+  position: absolute;
   z-index: -1;
 }
 

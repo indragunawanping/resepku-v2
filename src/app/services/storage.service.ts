@@ -74,7 +74,6 @@ export class StorageService {
   }
 
   async updateHistory(recipeId, recipeTitle, menuType, recipeImageUrl) {
-    console.log('2', recipeId, recipeTitle, menuType, recipeImageUrl);
     await this.storage.get('history').then((histories: DataStorage[]) => {
       if (histories) {
         this.toKeepHistory = [];

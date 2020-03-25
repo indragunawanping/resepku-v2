@@ -52,7 +52,6 @@ export class RecipeService {
   }
 
   getSearchedRecipe(listJaroWinklerDistance) {
-    console.log('listJaroWinklerDistance service: ', listJaroWinklerDistance);
     for (const type of this.foodType) {
       const recipeRef = firebase.database().ref('resep/' + type);
       recipeRef.on('value', (snapshot) => {
@@ -62,7 +61,6 @@ export class RecipeService {
             for (const listJaroWinkler in listJaroWinklerDistance) {
               if (listJaroWinklerDistance.hasOwnProperty(listJaroWinkler)) {
                 if ((snapshotVal[index].judul).toLowerCase() === listJaroWinklerDistance[listJaroWinkler].title) {
-                  console.log('sama');
                   this.mostSimilarRecipe.push({
                     id: index,
                     bahan: snapshotVal[index].bahan,

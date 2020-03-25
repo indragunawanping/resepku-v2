@@ -26,11 +26,16 @@
                                  src="../../../assets/icon-bookmark-fill.png" alt="icon-bookmark-fill.png">
                         </div>
                     </ion-fab-button>
-                    <ion-img (click)="handleHistoryChange(i, recipesData[i]['judul'], menuType, recipesData[i]['gambar'])" [routerLink]="['./', i]" *ngIf="recipesData[i]['gambar'] !== 'N/A'"
-                             class="thumbnail-recipe" src="{{recipesData[i]['gambar']}}"></ion-img>
-                    <img (click)="handleHistoryChange(i, recipesData[i]['judul'], menuType, recipesData[i]['gambar'])" [routerLink]="['./', i]" *ngIf="recipesData[i]['gambar'] === 'N/A'"
+                    <ion-img
+                            (click)="handleHistoryChange(i, recipesData[i]['judul'], menuType, recipesData[i]['gambar'])"
+                            [routerLink]="['./', i]" *ngIf="recipesData[i]['gambar'] !== 'N/A'"
+                            class="thumbnail-recipe" src="{{recipesData[i]['gambar']}}"></ion-img>
+                    <img (click)="handleHistoryChange(i, recipesData[i]['judul'], menuType, recipesData[i]['gambar'])"
+                         [routerLink]="['./', i]" *ngIf="recipesData[i]['gambar'] === 'N/A'" class="thumbnail-recipe"
                          src="../../../assets/no-image-available.png" alt="no-image-available">
-                    <ion-card-content (click)="handleHistoryChange(i, recipesData[i]['judul'], menuType, recipesData[i]['gambar'])" [routerLink]="['./', i]">
+                    <ion-card-content
+                            (click)="handleHistoryChange(i, recipesData[i]['judul'], menuType, recipesData[i]['gambar'])"
+                            [routerLink]="['./', i]">
                         <div class="text-title">
                             {{recipesData[i]['judul']}}
                         </div>

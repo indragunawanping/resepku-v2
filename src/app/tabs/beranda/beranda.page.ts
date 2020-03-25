@@ -46,9 +46,7 @@ export class BerandaPage implements OnInit {
 
   async ngOnInit() {
     this.presentLoading();
-    console.log('this.searchingData.length: ', this.searchingData.length);
     if (this.searchingData.length === 0) {
-      console.log('kosong');
       await this.getTitle();
     }
     document.getElementById('list-menu').style.display = 'none';
@@ -114,7 +112,6 @@ export class BerandaPage implements OnInit {
   jaroDistance(searchQuery) {
     const listJaroWinklerDistance: Distance[] = [];
     let counter = 0;
-    console.log('test1');
     const string1 = searchQuery.toLowerCase();
     const string1Len = string1.length;
 
@@ -190,10 +187,8 @@ export class BerandaPage implements OnInit {
         });
       }
     }
-    listJaroWinklerDistance.sort((a, b) => (a.value < b.value) ? 1 : -1);
     this.recipeService.getSearchedRecipe(listJaroWinklerDistance);
     this.router.navigate(['/tabs/beranda/search-result-menu']);
-    console.log('jaroWinklerDistance: ', listJaroWinklerDistance);
   }
 
   handleSearchButtonClick() {

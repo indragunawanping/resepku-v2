@@ -17,4 +17,5 @@ import { HistoryPage } from './history.page';
   ],
   declarations: [HistoryPage]
 })
-export class HistoryPageModule {}
+export class HistoryPageModule {
+}

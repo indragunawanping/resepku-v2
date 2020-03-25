@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipeService } from '../../services/recipe.service';
 import { DataStorage, StorageService } from '../../services/storage.service';
-import { ActivatedRoute } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { ToastController } from '@ionic/angular';
 
@@ -24,14 +23,15 @@ export interface SearchRecipe {
 })
 export class SearchResultMenuPage implements OnInit {
   mostSimilarRecipeData: SearchRecipe[] = [];
-  menuType: string;
-  menuTitle: string;
   bookmark: DataStorage[] = [];
   isBookmark: boolean;
   messageToast: string;
 
+  ionViewWillEnter() {
+    this.getBookmark();
+  }
+
   constructor(
-    private activatedRoute: ActivatedRoute,
     public recipeService: RecipeService,
     public storageService: StorageService,
     public storage: Storage,
@@ -41,17 +41,17 @@ export class SearchResultMenuPage implements OnInit {
   }
 
   ngOnInit() {
-    this.mostSimilarRecipeData = this.recipeService.mostSimilarRecipe;
-    console.log('mostSimilarRecipeData: ', this.mostSimilarRecipeData);
+    this.mostSimilarRecipeData = this.recipeService.mostSimilarRecipe.sort((a, b) =>
+      (a.jaroWinklerDistance < b.jaroWinklerDistance) ? 1 : -1);
   }
 
-  async handleBookmarkChange(recipeId, recipeTitle, recipeImageUrl) {
-    this.isBookmark = await this.storageService.updateBookmark(recipeId, recipeTitle, this.menuTitle, recipeImageUrl);
+  async handleBookmarkChange(recipeId, recipeTitle, recipeType, recipeImageUrl) {
+    this.isBookmark = await this.storageService.updateBookmark(recipeId, recipeTitle, recipeType, recipeImageUrl);
     this.getBookmark();
     this.presentToast(recipeTitle);
   }
 
-  async getBookmark(): Promise <any> {
+  async getBookmark(): Promise<any> {
     await this.storage.get('bookmark').then((bookmarks: DataStorage[]) => {
       if (bookmarks) {
         this.bookmark = [];
@@ -72,14 +72,13 @@ export class SearchResultMenuPage implements OnInit {
     }
     const toast = await this.toastController.create({
       message: recipeTitle + ' berhasil ' + this.messageToast + ' Bookmark.',
-      duration: 1000
+      duration: 500
     });
     toast.present();
   }
 
   handleHistoryChange(id, title, type, imageUrl) {
     this.storageService.updateHistory(id, title, type, imageUrl);
-    console.log('id, title, type, imageUrl: ', id, title, type, imageUrl);
   }
 
   ionViewWillLeave() {
