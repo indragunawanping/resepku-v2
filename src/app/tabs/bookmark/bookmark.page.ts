@@ -78,7 +78,7 @@ export class BookmarkPage implements OnInit {
 
   async handleButtonDeleteAllBookmarkClick() {
     const alert = await this.alertController.create({
-      message: '<strong>Hapus</strong> semua bookmark?',
+      message: '<strong>Hapus</strong> semua dari Bookmark?',
       buttons: [
         {
           text: 'Tidak',

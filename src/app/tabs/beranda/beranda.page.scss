@@ -1,4 +1,4 @@
-.logo-resepku {
+.logo-risetta {
   max-width: 100px;
   text-align: center;
   padding: none;
@@ -20,6 +20,12 @@ ion-grid {
 }
 
 .bt-credits {
+  max-height: 30px;
+  max-width: 80px;
+  float: left;
+}
+
+.bt-exit {
   max-height: 30px;
   max-width: 80px;
   float: right;
@@ -56,4 +62,10 @@ h3, .search-bar {
   padding-top: 5% !important;
   margin-top: 5% !important;
   height: 80%;
+}
+
+.logo-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

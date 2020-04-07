@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipeService } from '../../services/recipe.service';
 import { Storage } from '@ionic/storage';
-import { LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { StorageService } from '../../services/storage.service';
 import { Router } from '@angular/router';
 
@@ -40,7 +40,8 @@ export class BerandaPage implements OnInit {
     public storage: Storage,
     public loadingController: LoadingController,
     public storageService: StorageService,
-    private router: Router
+    private router: Router,
+    public alertController: AlertController
   ) {
   }
 
@@ -66,6 +67,26 @@ export class BerandaPage implements OnInit {
 
   async getTitle() {
     this.searchingData = await this.recipeService.getRecipe();
+  }
+
+  async handleExitApp() {
+    const alert = await this.alertController.create({
+      message: 'Anda yakin ingin <strong>keluar</strong>?',
+      buttons: [
+        {
+          text: 'Tidak',
+          role: 'cancel',
+          cssClass: 'secondary'
+        }, {
+          text: 'Ya, Saya yakin',
+          handler: async () => {
+            console.log('yakin!');
+            navigator['app'].exitApp();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 
   handleInput(event) {

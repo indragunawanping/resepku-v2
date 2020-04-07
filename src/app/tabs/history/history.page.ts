@@ -53,7 +53,7 @@ export class HistoryPage implements OnInit {
 
   async handleButtonDeleteAllHistoryClick() {
     const alert = await this.alertController.create({
-      message: '<strong>Hapus</strong> semua history?',
+      message: '<strong>Hapus</strong> semua dari History?',
       buttons: [
         {
           text: 'Tidak',
