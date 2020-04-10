@@ -3,50 +3,50 @@
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-title>  {{ recipeData[3] }} </ion-title>
+        <ion-title>  {{ recipes[2] }} </ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-fab-button class="button-fab" color="success"
-                (click)="handleBookmarkChange(recipeData[0], recipeData[3], recipeData[2])">
-    <img id="fabBookmarkOutline" class="icon-fab" src="../../../assets/icon-bookmark-outline.png"
+<ion-fab-button class="fab-bookmark" color="success"
+                (click)="handleBookmarkChange(recipes[0], recipes[2], recipes[6])">
+    <img class="fab-bookmark-outline icon-bookmark" src="../../../assets/icon-bookmark-outline.png"
          alt="icon-bookmark-outline.png">
-    <div *ngFor="let bm of bookmark; let j = index" id="fabDiv">
-        <img *ngIf="bookmark[j].title === recipeData[3]" class="icon-fab" src="../../../assets/icon-bookmark-fill.png"
+    <div *ngFor="let bookmark of bookmarks; let j = index">
+        <img *ngIf="bookmark.title === recipes[2]" class="icon-bookmark" src="../../../assets/icon-bookmark-fill.png"
              alt="icon-bookmark-fill.png">
     </div>
 </ion-fab-button>
 <ion-content>
-    <ion-card class="card-flex">
-        <img *ngIf="recipeData[2] !== 'N/A'" src="{{ recipeData[2] }}" alt="Menu Image">
-        <img *ngIf="recipeData[2] === 'N/A'" src="../../../assets/no-image-available.png" alt="no-image-available">
+    <ion-card>
+        <img *ngIf="recipes[6] !== 'N/A'" src="{{ recipes[6] }}" alt="Menu Image">
+        <img *ngIf="recipes[6] === 'N/A'" src="../../../assets/no-image-available.png" alt="no-image-available">
         <ion-card-content>
-            <p class="text-title content-center text-recipe-title">
-                {{ recipeData[3] }}
-            </p>
+            <b class="content-center text-title-1">
+                {{ recipes[2] }}
+            </b>
             <br>
             <ion-row>
                 <ion-col size="6" no-padding class="content-center">
                     <ion-icon color="primary" name="pizza"></ion-icon>
-                    <span class="info-content"> {{ recipeData[6] }}</span>
+                    <span> {{ recipes[5] }}</span>
                 </ion-col>
                 <ion-col size="6" no-padding class="content-center">
                     <ion-icon color="primary" name="timer"></ion-icon>
-                    <span class="ion-text-center info-content"> {{ recipeData[4] }}</span>
+                    <span> {{ recipes[3] }}</span>
                 </ion-col>
             </ion-row>
             <br>
             <hr>
             <br>
-            <div class="ion-text-center text-title2">
+            <div class="ion-text-center text-title-2">
                 BAHAN-BAHAN
             </div>
             <br>
-            <ion-row *ngFor="let recipe of recipeData[1] let i = index" class="text-title">
-                {{ recipe['jenisBahan'] }}
-                <ion-row *ngFor="let recipe2 of recipe['bahanBahan'] let i = index" class="text-normal">
+            <ion-row *ngFor="let bahan of recipes[1]" class="text-title-3">
+                {{ bahan['jenisBahan'] }}
+                <ion-row *ngFor="let recipe2 of bahan['bahanBahan'] let idx = index" class="text-detail">
                     <ion-col size="1">
-                        {{ i + 1 }}.
+                        {{ idx + 1 }}.
                     </ion-col>
                     <ion-col size="10">
                         {{ recipe2 }}
@@ -56,20 +56,21 @@
             </ion-row>
             <hr>
             <br>
-            <div class="ion-text-center text-title2">
+            <div class="ion-text-center text-title-2">
                 LANGKAH-LANGKAH
             </div>
             <br>
-            <ion-row *ngFor="let recipe of recipeData[5] let i = index" class="text-title">
-                {{ recipe['jenisLangkah'] }}
-                <ion-row *ngFor="let recipe2 of recipe['langkahLangkah'] let i = index" class="text-normal">
+            <ion-row *ngFor="let langkah of recipes[4]" class="text-title-3">
+                {{ langkah['jenisLangkah'] }}
+                <ion-row *ngFor="let recipe2 of langkah['langkahLangkah'] let idx = index" class="text-detail">
                     <ion-col size="1">
-                        {{ i + 1 }}.
+                        {{ idx + 1 }}.
                     </ion-col>
                     <ion-col size="10">
                         {{ recipe2 }}
                     </ion-col>
                 </ion-row>
+                <br>
             </ion-row>
             <br><br><br>
         </ion-card-content>

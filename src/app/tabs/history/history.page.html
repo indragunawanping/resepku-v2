@@ -1,32 +1,32 @@
 <ion-header>
     <ion-toolbar color="secondary">
         <ion-title class="ion-text-center">History</ion-title>
-        <ion-fab-button class="button-fab" size="small" color="success" (click)="handleButtonDeleteAllHistoryClick()">
-            <img class="icon-fab" src="../../../assets/icon-trash.png" alt="icon-bookmark-outline.png">
+        <ion-fab-button class="btn-trash" size="small" color="success" (click)="handleButtonDeleteAllHistoryClick()">
+            <img class="icon-trash" src="../../../assets/icon-trash.png" alt="icon-trash.png">
         </ion-fab-button>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-grid text-center style="height: 100%">
-        <ion-row *ngIf="history.length === 0" justify-content-center align-items-center style="height: 100%">
+    <ion-grid style="height: 100%">
+        <ion-row *ngIf="histories.length === 0" justify-content-center text-center style="height: 100%">
             <ion-col size="8" align-self-center>
                 <ion-img class="ion-padding" src="../../assets/none-history.png"></ion-img>
                 <br>
-                <ion-label color="success">Tidak ada history</ion-label>
+                <ion-label color="success">Tidak ada History</ion-label>
             </ion-col>
         </ion-row>
-        <ion-list *ngIf="history.length > 0">
-            <ion-item *ngFor="let hs of history; let i = index;">
+        <ion-list *ngIf="histories.length > 0">
+            <ion-item *ngFor="let historyRecipe of histories">
                 <ion-avatar slot="start">
-                    <img src="{{ history[i].imageUrl }}" alt="Menu Image">
+                    <img src="{{ historyRecipe.imageUrl }}" alt="history-image">
                 </ion-avatar>
                 <ion-label class="bookmark-label">
-                    <h2 class="bookmark-title">{{ history[i].title }}</h2>
-                    <p>{{ history[i].type }}</p>
+                    <h2 class="title-list">{{ historyRecipe.title }}</h2>
+                    <p>{{ historyRecipe.type }}</p>
                 </ion-label>
                 <ion-icon id="icon-trash" color="secondary" name="trash"
-                          (click)="handleButtonDeleteClick(history[i].title)"></ion-icon>
+                          (click)="handleButtonDeleteClick(historyRecipe.title)"></ion-icon>
             </ion-item>
         </ion-list>
     </ion-grid>

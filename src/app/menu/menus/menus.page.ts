@@ -18,9 +18,9 @@ export interface Bookmark {
 })
 export class MenusPage implements OnInit {
   menuType: string;
-  menuTitle: string;
-  recipesData: any;
-  bookmark: DataStorage[] = [];
+  recipeTitle: string;
+  recipes: any;
+  bookmarks: DataStorage[] = [];
   isBookmark: boolean;
   messageToast: string;
 
@@ -44,56 +44,57 @@ export class MenusPage implements OnInit {
         if (paramMap.has('menuType')) {
           this.menuType = paramMap.get('menuType');
           this.getMenuTitle();
-          this.recipesData = this.recipeService.getAllRecipesSvc(this.menuType);
+          this.recipes = this.recipeService.getAllRecipesSvc(this.menuType);
         } else {
           return;
         }
       }
     );
     this.getBookmark();
+    console.log('recipesData: ', this.recipes);
   }
 
   getMenuTitle() {
     switch (this.menuType) {
       case 'daging':
-        this.menuTitle = 'Daging';
+        this.recipeTitle = 'Daging';
         break;
       case 'nasi':
-        this.menuTitle = 'Nasi';
+        this.recipeTitle = 'Nasi';
         break;
-      case 'sayuran':
-        this.menuTitle = 'Vegetarian';
+      case 'vegetarian':
+        this.recipeTitle = 'Vegetarian';
         break;
-      case 'ikan':
-        this.menuTitle = 'Ikan/Seafood';
+      case 'ikanSeafood':
+        this.recipeTitle = 'Ikan/Seafood';
         break;
       case 'mi':
-        this.menuTitle = 'Mi';
+        this.recipeTitle = 'Mi';
         break;
       case 'kue':
-        this.menuTitle = 'Kue';
+        this.recipeTitle = 'Kue';
         break;
       case 'masakanJepang':
-        this.menuTitle = 'Masakan Jepang';
+        this.recipeTitle = 'Masakan Jepang';
         break;
       case 'masakanTiongkok':
-        this.menuTitle = 'Masakan Tiongkok';
+        this.recipeTitle = 'Masakan Tiongkok';
         break;
       case 'masakanItalia':
-        this.menuTitle = 'Masakan Italia';
+        this.recipeTitle = 'Masakan Italia';
         break;
       default:
-        this.menuTitle = 'kosong';
+        this.recipeTitle = 'kosong';
     }
   }
 
   async getBookmark(): Promise<any> {
     await this.storage.get('bookmark').then((bookmarks: DataStorage[]) => {
       if (bookmarks) {
-        this.bookmark = [];
+        this.bookmarks = [];
         for (const bookmark in bookmarks) {
           if (bookmark) {
-            this.bookmark.push(bookmarks[bookmark]);
+            this.bookmarks.push(bookmarks[bookmark]);
           }
         }
       }
@@ -101,7 +102,7 @@ export class MenusPage implements OnInit {
   }
 
   async handleBookmarkChange(recipeId, recipeTitle, recipeImageUrl) {
-    this.isBookmark = await this.storageService.updateBookmark(recipeId, recipeTitle, this.menuTitle, recipeImageUrl);
+    this.isBookmark = await this.storageService.updateBookmark(recipeId, recipeTitle, this.recipeTitle, recipeImageUrl);
     this.getBookmark();
     this.presentToast(recipeTitle);
   }

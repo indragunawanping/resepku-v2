@@ -10,19 +10,17 @@ export interface Distance {
   value: number;
 }
 
-export interface SearchingData {
+export interface Recipe {
   id: string;
-  bahan?: string;
-  gambar: string;
-  judul: string;
-  lama?: string;
-  langkah?: string;
-  porsi?: string;
+  imageUrl: string;
   type?: string;
+  title: string;
+  portions?: string;
+  duration?: string;
+  steps?: string;
+  ingredients?: string;
   jaroWinklerDistance?: number;
 }
-
-let querySearch = '';
 
 @Component({
   selector: 'app-beranda',
@@ -31,9 +29,10 @@ let querySearch = '';
 })
 
 export class BerandaPage implements OnInit {
-  searchingData: SearchingData[] = [];
+  recipeSearchingData: Recipe[] = [];
+  mostSimilarRecipes: Recipe[] = [];
   isSearchFocus = true;
-  searchQuery: any;
+  querySearch = '';
 
   constructor(
     public recipeService: RecipeService,
@@ -47,12 +46,12 @@ export class BerandaPage implements OnInit {
 
   async ngOnInit() {
     this.presentLoading();
-    if (this.searchingData.length === 0) {
+    if (this.recipeSearchingData.length === 0) {
       await this.getTitle();
     }
     document.getElementById('list-menu').style.display = 'none';
     const searchbar = document.querySelector('ion-searchbar');
-    searchbar.addEventListener('ionInput', this.handleInput);
+    // searchbar.addEventListener('ionInput', this.handleInput);
     searchbar.addEventListener('ionFocus', this.handleFocus);
     searchbar.addEventListener('ionCancel', this.handleCancel);
   }
@@ -66,7 +65,7 @@ export class BerandaPage implements OnInit {
   }
 
   async getTitle() {
-    this.searchingData = await this.recipeService.getRecipe();
+    this.recipeSearchingData = await this.recipeService.getRecipe();
   }
 
   async handleExitApp() {
@@ -80,8 +79,8 @@ export class BerandaPage implements OnInit {
         }, {
           text: 'Ya, Saya yakin',
           handler: async () => {
-            console.log('yakin!');
-            navigator['app'].exitApp();
+            // @ts-ignore
+            navigator.app.exitApp();
           }
         }
       ]
@@ -89,56 +88,14 @@ export class BerandaPage implements OnInit {
     await alert.present();
   }
 
-  handleInput(event) {
-    querySearch = event.target.value.toLowerCase();
-    const itemList = Array.from(document.getElementById('searchRecipeList').children);
-    let countFalse = 0;
-    requestAnimationFrame(async () => {
-      for (const item of itemList) {
-        const shouldShow = item.textContent.toLowerCase().indexOf(querySearch) > -1;
-        // @ts-ignore
-        item.style.display = shouldShow ? 'block' : 'none';
-        if (shouldShow === false) {
-          countFalse++;
-        }
-        if (countFalse === itemList.length) {
-          document.getElementById('list-none').style.display = 'block';
-        } else {
-          document.getElementById('list-none').style.display = 'none';
-        }
-      }
-    });
-
-    if (querySearch.length > 0) {
-      document.getElementById('list-menu').style.display = 'block';
-    } else {
-      document.getElementById('list-menu').style.display = 'none';
-    }
-  }
-
-  handleFocus() {
-    this.isSearchFocus = true;
-    document.getElementById('grid-menu').style.display = 'none';
-  }
-
-  handleCancel() {
-    this.isSearchFocus = false;
-    document.getElementById('grid-menu').style.display = 'block';
-  }
-
-  handleHistoryChange(id, title, type, imageUrl) {
-    this.storageService.updateHistory(id, title, type, imageUrl);
-  }
-
-  jaroDistance(searchQuery) {
+  calculateJaroDistance(searchQuery) {
     const listJaroWinklerDistance: Distance[] = [];
     let counter = 0;
     const string1 = searchQuery.toLowerCase();
     const string1Len = string1.length;
-
-    for (const data of this.searchingData) {
+    for (const data of this.recipeSearchingData) {
       counter++;
-      const string2 = data.judul.toLowerCase();
+      const string2 = data.title.toLowerCase();
       let jaroDistance = 0;
       let jaroWinklerDistance = 0;
       let totalPrefix = 0;
@@ -209,10 +166,49 @@ export class BerandaPage implements OnInit {
       }
     }
     this.recipeService.getSearchedRecipe(listJaroWinklerDistance);
-    this.router.navigate(['/tabs/beranda/search-result-menu']);
+    this.mostSimilarRecipes = this.recipeService.mostSimilarRecipesSvc.sort((a, b) =>
+      (a.jaroWinklerDistance < b.jaroWinklerDistance) ? 1 : -1);
   }
 
-  handleSearchButtonClick() {
-    this.jaroDistance(this.searchQuery);
+  handleInput(event) {
+    this.querySearch = event.target.value.toLowerCase();
+    const itemList = Array.from(document.getElementById('searchRecipeList').children);
+    let countFalse = 0;
+    requestAnimationFrame(async () => {
+      for (const item of itemList) {
+        const shouldShow = item.textContent.toLowerCase().indexOf(this.querySearch) > -1;
+        // @ts-ignore
+        item.style.display = shouldShow ? 'block' : 'none';
+        if (shouldShow === false) {
+          countFalse++;
+        }
+        if (countFalse === itemList.length) {
+          document.getElementById('list-none').style.display = 'block';
+          this.calculateJaroDistance(this.querySearch);
+        } else {
+          document.getElementById('list-none').style.display = 'none';
+        }
+      }
+    });
+
+    if (this.querySearch.length > 0) {
+      document.getElementById('list-menu').style.display = 'block';
+    } else {
+      document.getElementById('list-menu').style.display = 'none';
+    }
+  }
+
+  handleFocus() {
+    this.isSearchFocus = true;
+    document.getElementById('grid-menu').style.display = 'none';
+  }
+
+  handleCancel() {
+    this.isSearchFocus = false;
+    document.getElementById('grid-menu').style.display = 'block';
+  }
+
+  handleHistoryChange(id, title, type, imageUrl) {
+    this.storageService.updateHistory(id, title, type, imageUrl);
   }
 }

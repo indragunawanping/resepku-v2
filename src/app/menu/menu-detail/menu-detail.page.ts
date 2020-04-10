@@ -13,8 +13,8 @@ import { ToastController } from '@ionic/angular';
 export class MenuDetailPage implements OnInit {
   menuType: string;
   menuIndex: string;
-  recipeData: any;
-  bookmark: DataStorage[] = [];
+  recipes: any;
+  bookmarks: DataStorage[] = [];
   isBookmark: boolean;
   messageToast: string;
 
@@ -37,21 +37,22 @@ export class MenuDetailPage implements OnInit {
         if (paramMap.has('menuType')) {
           this.menuType = paramMap.get('menuType');
           this.menuIndex = paramMap.get('menuIndex');
-          this.recipeData = this.recipeService.getRecipeSvc(this.menuType, this.menuIndex);
+          this.recipes = this.recipeService.getRecipeSvc(this.menuType, this.menuIndex);
         } else {
           return;
         }
       }
     );
+    console.log('this.recipeData: ', this.recipes);
   }
 
   async getBookmark(): Promise<any> {
     await this.storage.get('bookmark').then((bookmarks: DataStorage[]) => {
       if (bookmarks) {
-        this.bookmark = [];
+        this.bookmarks = [];
         for (const bookmark in bookmarks) {
           if (bookmark) {
-            this.bookmark.push(bookmarks[bookmark]);
+            this.bookmarks.push(bookmarks[bookmark]);
           }
         }
       }

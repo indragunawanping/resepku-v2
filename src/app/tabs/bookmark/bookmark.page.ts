@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./bookmark.page.scss'],
 })
 export class BookmarkPage implements OnInit {
-  bookmark: DataStorage[] = [];
+  bookmarks: DataStorage[] = [];
 
   ionViewWillEnter() {
     this.getBookmark();
@@ -32,7 +32,7 @@ export class BookmarkPage implements OnInit {
   async getBookmark(): Promise<any> {
     await this.storage.get('bookmark').then((bookmarks: DataStorage[]) => {
       if (bookmarks) {
-        this.bookmark = [];
+        this.bookmarks = [];
         for (const bookmark in bookmarks) {
           if (bookmark) {
             switch (bookmarks[bookmark].type) {
@@ -46,20 +46,21 @@ export class BookmarkPage implements OnInit {
                 bookmarks[bookmark].type = 'Masakan Italia';
                 break;
             }
-            this.bookmark.push(bookmarks[bookmark]);
+            this.bookmarks.push(bookmarks[bookmark]);
           }
         }
       }
     });
+    console.log('this.bookmarks: ', this.bookmarks);
   }
 
   handleItemClick(recipeType, recipeId) {
     switch (recipeType) {
       case 'Vegetarian':
-        recipeType = 'sayuran';
+        recipeType = 'vegetarian';
         break;
       case 'Ikan/Seafood':
-        recipeType = 'ikan';
+        recipeType = 'ikanSeafood';
         break;
       case 'Masakan Jepang':
         recipeType = 'masakanJepang';

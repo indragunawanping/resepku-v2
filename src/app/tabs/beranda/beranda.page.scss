@@ -1,71 +1,38 @@
-.logo-risetta {
-  max-width: 100px;
-  text-align: center;
-  padding: none;
-}
-
-.text-resepku {
-  font-weight: bold;
-}
-
-.icon-recipe {
-  width: 100% !important;
-  margin: auto !important;
-  display: block !important;
-}
-
-ion-grid {
-  margin-left: 0.5%;
-  margin-right: 0.5%;
-}
-
-.bt-credits {
+.btn-header{
   max-height: 30px;
   max-width: 80px;
+}
+
+.btn-credits {
   float: left;
 }
 
-.bt-exit {
-  max-height: 30px;
-  max-width: 80px;
+.logo-center {
+  display: flex;
+  justify-content: center;
+}
+
+.logo-risetta {
+  max-width: 100px;
+}
+
+.btn-exit {
   float: right;
 }
 
-ion-row {
-  ion-card {
-    width: 100% !important;
-    margin: 0 !important;
-  }
-}
-
-.text {
+.txt-container-quotes {
   font-size: small;
   margin-top: 15px;
   margin-bottom: 25px;
 }
 
-.bold {
-  font-weight: bold
+.mark-no-list{
+  padding-top: 30%;
 }
 
-.quotes {
-  margin-bottom: 3px !important;
-}
-
-h3, .search-bar {
-  padding-right: 0px !important;
-}
-
-.search-button {
-  width: 85%;
-  padding-right: 0% !important;
-  padding-top: 5% !important;
-  margin-top: 5% !important;
-  height: 80%;
-}
-
-.logo-center{
+.label-not-found {
+  font-weight: bold;
   display: flex;
-  align-items: center;
   justify-content: center;
+  padding-bottom: 10px;
 }

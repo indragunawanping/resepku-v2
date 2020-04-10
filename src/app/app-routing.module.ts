@@ -5,10 +5,10 @@ const routes: Routes = [
   { path: '', redirectTo: 'tabs', pathMatch: 'full' },
   { path: 'tabs', loadChildren: './tabs/tabs.module#TabsPageModule' },
   { path: 'credits', loadChildren: './credits/credits.module#CreditsPageModule' },
-  {
-    path: 'tabs/beranda/search-result-menu',
-    loadChildren: './menu/search-result-menu/search-result-menu.module#SearchResultMenuPageModule'
-  },
+  // {
+  //   path: 'tabs/beranda/search-result-menu',
+  //   loadChildren: './menu/search-result-menu/search-result-menu.module#SearchResultMenuPageModule'
+  // },
   {
     path: 'tabs/beranda/:menuType',
     loadChildren: './menu/menus/menus.module#MenusPageModule'

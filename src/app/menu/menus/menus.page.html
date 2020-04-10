@@ -1,56 +1,56 @@
 <ion-header>
     <ion-toolbar color="secondary">
         <ion-buttons slot="start">
-            <ion-back-button defaultHref=""></ion-back-button>
+            <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-title>Menu {{menuTitle}}</ion-title>
+        <ion-title>Menu {{recipeTitle}}</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <div class="content-center">
-        <img class="logo-risetta2" src="../../../assets/logo-risetta-fill.png" alt="logo-risetta-fill">
+        <img class="logo-risetta-2" src="../../../assets/logo-risetta-fill.png" alt="logo-risetta-fill">
     </div>
     <ion-grid>
         <ion-row>
-            <ion-col *ngFor="let recipes of recipesData; let i = index;" align-items-stretch size="6">
+            <ion-col *ngFor="let recipe of recipes; let idx = index;" align-items-stretch size="6">
                 <ion-card
                         class="card-flex"
                 >
-                    <ion-fab-button class="button-fab" size="small" color="success"
-                                    (click)="handleBookmarkChange(i, recipesData[i]['judul'], recipesData[i]['gambar'])">
-                        <img id="fabBookmarkOutline" class="icon-fab" src="../../../assets/icon-bookmark-outline.png"
+                    <ion-fab-button class="fab-bookmark" size="small" color="success"
+                                    (click)="handleBookmarkChange(idx, recipes[idx]['judul'], recipes[idx]['urlGambar'])">
+                        <img class="fab-bookmark-outline icon-bookmark" src="../../../assets/icon-bookmark-outline.png"
                              alt="icon-bookmark-outline.png">
-                        <div *ngFor="let bm of bookmark; let j = index" id="fabDiv">
-                            <img *ngIf="bookmark[j].title === recipesData[i]['judul']" class="icon-fab"
+                        <div *ngFor="let bookmark of bookmarks; let j = index">
+                            <img *ngIf="bookmark.title === recipes[idx]['judul']" class="icon-bookmark"
                                  src="../../../assets/icon-bookmark-fill.png" alt="icon-bookmark-fill.png">
                         </div>
                     </ion-fab-button>
                     <ion-img
-                            (click)="handleHistoryChange(i, recipesData[i]['judul'], menuType, recipesData[i]['gambar'])"
-                            [routerLink]="['./', i]" *ngIf="recipesData[i]['gambar'] !== 'N/A'"
-                            class="thumbnail-recipe" src="{{recipesData[i]['gambar']}}"></ion-img>
-                    <img (click)="handleHistoryChange(i, recipesData[i]['judul'], menuType, recipesData[i]['gambar'])"
-                         [routerLink]="['./', i]" *ngIf="recipesData[i]['gambar'] === 'N/A'" class="thumbnail-recipe"
-                         src="../../../assets/no-image-available.png" alt="no-image-available">
+                            (click)="handleHistoryChange(idx, recipes[idx]['judul'], menuType, recipes[idx]['urlGambar'])"
+                            [routerLink]="['./', idx]" *ngIf="recipes[idx]['urlGambar'] !== 'N/A'"
+                            class="thumbnail" src="{{recipes[idx]['urlGambar']}}"></ion-img>
+                    <img (click)="handleHistoryChange(idx, recipes[idx]['judul'], menuType, recipes[idx]['urlGambar'])"
+                         [routerLink]="['./', idx]" *ngIf="recipes[idx]['urlGambar'] === 'N/A'" class="thumbnail"
+                         src="../../../assets/no-image-available.png" alt="no-image-available.png">
                     <ion-card-content
-                            (click)="handleHistoryChange(i, recipesData[i]['judul'], menuType, recipesData[i]['gambar'])"
-                            [routerLink]="['./', i]">
+                            (click)="handleHistoryChange(idx, recipes[idx]['judul'], menuType, recipes[idx]['urlGambar'])"
+                            [routerLink]="['./', idx]">
                         <div class="text-title">
-                            {{recipesData[i]['judul']}}
+                            {{recipes[idx]['judul']}}
                         </div>
                         <br>
                         <ion-row>
                             <ion-col size="6" no-padding>
                                 <ion-icon color="primary" name="pizza"></ion-icon>
-                                <span class="info-content">
-                         {{recipesData[i]['porsi']}}
+                                <span class="info">
+                         {{recipes[idx]['porsi']}}
                       </span>
                             </ion-col>
                             <ion-col size="6" no-padding>
                                 <ion-icon color="primary" name="timer"></ion-icon>
-                                <span class="info-content">
-                         {{recipesData[i]['lama']}}
+                                <span class="info">
+                         {{recipes[idx]['lama']}}
                       </span>
                             </ion-col>
                         </ion-row>

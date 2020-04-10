@@ -9,7 +9,7 @@ import { DataStorage, StorageService } from '../../services/storage.service';
   styleUrls: ['./history.page.scss'],
 })
 export class HistoryPage implements OnInit {
-  history: DataStorage[] = [];
+  histories: DataStorage[] = [];
 
   ionViewWillEnter() {
     this.getHistory();
@@ -30,7 +30,7 @@ export class HistoryPage implements OnInit {
   async getHistory() {
     await this.storage.get('history').then((histories: DataStorage[]) => {
       if (histories) {
-        this.history = [];
+        this.histories = [];
         for (const history in histories) {
           if (history) {
             switch (histories[history].type) {
@@ -44,7 +44,7 @@ export class HistoryPage implements OnInit {
                 histories[history].type = 'masakan italia';
                 break;
             }
-            this.history.push(histories[history]);
+            this.histories.push(histories[history]);
           }
         }
       }
