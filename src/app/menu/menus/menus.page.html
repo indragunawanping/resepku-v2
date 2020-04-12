@@ -3,13 +3,13 @@
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-title>Menu {{recipeTitle}}</ion-title>
+        <ion-title>Menu {{recipeTypeDisplay}}</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <div class="content-center">
-        <img class="logo-risetta-2" src="../../../assets/logo-risetta-fill.png" alt="logo-risetta-fill">
+        <img class="logo-risetta-2" src="../../../assets/logo-risetta-fill.png" alt="logo-risetta-fill.png">
     </div>
     <ion-grid>
         <ion-row>
@@ -18,39 +18,39 @@
                         class="card-flex"
                 >
                     <ion-fab-button class="fab-bookmark" size="small" color="success"
-                                    (click)="handleBookmarkChange(idx, recipes[idx]['judul'], recipes[idx]['urlGambar'])">
+                                    (click)="handleBookmarkChange(idx, recipe.title, recipe.imageUrl)">
                         <img class="fab-bookmark-outline icon-bookmark" src="../../../assets/icon-bookmark-outline.png"
                              alt="icon-bookmark-outline.png">
                         <div *ngFor="let bookmark of bookmarks; let j = index">
-                            <img *ngIf="bookmark.title === recipes[idx]['judul']" class="icon-bookmark"
+                            <img *ngIf="bookmark.title === recipe.title" class="icon-bookmark"
                                  src="../../../assets/icon-bookmark-fill.png" alt="icon-bookmark-fill.png">
                         </div>
                     </ion-fab-button>
                     <ion-img
-                            (click)="handleHistoryChange(idx, recipes[idx]['judul'], menuType, recipes[idx]['urlGambar'])"
-                            [routerLink]="['./', idx]" *ngIf="recipes[idx]['urlGambar'] !== 'N/A'"
-                            class="thumbnail" src="{{recipes[idx]['urlGambar']}}"></ion-img>
-                    <img (click)="handleHistoryChange(idx, recipes[idx]['judul'], menuType, recipes[idx]['urlGambar'])"
-                         [routerLink]="['./', idx]" *ngIf="recipes[idx]['urlGambar'] === 'N/A'" class="thumbnail"
+                            (click)="handleHistoryChange(idx, recipe.title, recipeType, recipe.imageUrl)"
+                            [routerLink]="['./', idx]" *ngIf="recipe.imageUrl !== 'N/A'"
+                            class="thumbnail" src="{{recipe.imageUrl}}" alt="menu-image"></ion-img>
+                    <img (click)="handleHistoryChange(idx, recipe.title, recipeType, recipe.imageUrl)"
+                         [routerLink]="['./', idx]" *ngIf="recipe.imageUrl === 'N/A'" class="thumbnail"
                          src="../../../assets/no-image-available.png" alt="no-image-available.png">
                     <ion-card-content
-                            (click)="handleHistoryChange(idx, recipes[idx]['judul'], menuType, recipes[idx]['urlGambar'])"
+                            (click)="handleHistoryChange(idx, recipe.title, recipeType, recipe.imageUrl)"
                             [routerLink]="['./', idx]">
                         <div class="text-title">
-                            {{recipes[idx]['judul']}}
+                            {{recipe.title}}
                         </div>
                         <br>
                         <ion-row>
                             <ion-col size="6" no-padding>
                                 <ion-icon color="primary" name="pizza"></ion-icon>
                                 <span class="info">
-                         {{recipes[idx]['porsi']}}
+                         {{recipe.portions}}
                       </span>
                             </ion-col>
                             <ion-col size="6" no-padding>
                                 <ion-icon color="primary" name="timer"></ion-icon>
                                 <span class="info">
-                         {{recipes[idx]['lama']}}
+                         {{recipe.duration}}
                       </span>
                             </ion-col>
                         </ion-row>

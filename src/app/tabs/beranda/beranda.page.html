@@ -21,7 +21,7 @@
 <ion-content>
     <ion-row>
         <ion-col>
-            <ion-searchbar (ionInput)="handleInput($event)" show-cancel-button="focus"
+            <ion-searchbar class="search-bar" (ionInput)="handleInput($event)" (ionFocus)="handleFocus()" (ionCancel)="handleCancel()" show-cancel-button="focus"
                            placeholder="Cari resep di sini..."
                            color="success"></ion-searchbar>
         </ion-col>
@@ -33,61 +33,67 @@
             </ion-text>
             <strong> - Julia Child -</strong>
         </div>
+        <div class="content-center label-menu-type label-menu-type-margin-1" color="primary">
+            berdasarkan jenis/bahan utama
+        </div>
         <ion-row>
             <ion-col>
                 <div [routerLink]="['./', 'daging']">
-                    <ion-img src="../../assets/icon-daging.png"></ion-img>
+                    <ion-img src="../../assets/icon-daging.png" alt="icon-daging.png"></ion-img>
                 </div>
             </ion-col>
             <ion-col>
                 <div [routerLink]="['./', 'nasi']">
-                    <ion-img src="../../assets/icon-nasi.png"></ion-img>
+                    <ion-img src="../../assets/icon-nasi.png" alt="icon-nasi.png"></ion-img>
                 </div>
             </ion-col>
             <ion-col>
                 <div [routerLink]="['./', 'vegetarian']">
-                    <ion-img src="../../assets/icon-sayuran.png"></ion-img>
+                    <ion-img src="../../assets/icon-sayuran.png" alt="icon-sayuran.png"></ion-img>
                 </div>
             </ion-col>
         </ion-row>
         <ion-row>
             <ion-col>
                 <div [routerLink]="['./', 'ikanSeafood']">
-                    <ion-img src="../../assets/icon-ikan.png"></ion-img>
+                    <ion-img src="../../assets/icon-ikan.png" alt="icon-ikan.png"></ion-img>
                 </div>
             </ion-col>
             <ion-col>
                 <div [routerLink]="['./', 'mi']">
-                    <ion-img src="../../assets/icon-mi.png"></ion-img>
+                    <ion-img src="../../assets/icon-mi.png" alt="icon-mi.png"></ion-img>
                 </div>
             </ion-col>
             <ion-col>
                 <div [routerLink]="['./', 'kue']">
-                    <ion-img src="../../assets/icon-kue.png"></ion-img>
+                    <ion-img src="../../assets/icon-kue.png" alt="icon-kue.png"></ion-img>
                 </div>
             </ion-col>
         </ion-row>
+        <div class="content-center label-menu-type label-menu-type-margin-2" color="primary">
+            berdasarkan negara
+        </div>
         <ion-row>
             <ion-col>
                 <div [routerLink]="['./', 'masakanJepang']">
-                    <ion-img src="../../assets/icon-masakan_jepang.png"></ion-img>
+                    <ion-img src="../../assets/icon-masakan_jepang.png" alt="icon-masakan_jepang.png"></ion-img>
                 </div>
             </ion-col>
             <ion-col>
                 <div [routerLink]="['./', 'masakanTiongkok']">
-                    <ion-img src="../../assets/icon-masakan_tiongkok.png"></ion-img>
+                    <ion-img src="../../assets/icon-masakan_tiongkok.png" alt="icon-masakan_tiongkok.png"></ion-img>
                 </div>
             </ion-col>
             <ion-col>
                 <div [routerLink]="['./', 'masakanItalia']">
-                    <ion-img src="../../assets/icon-masakan_italia.png"></ion-img>
+                    <ion-img src="../../assets/icon-masakan_italia.png" alt="icon-masakan_italia.png"></ion-img>
                 </div>
             </ion-col>
         </ion-row>
     </ion-grid>
-    <ion-list id="list-menu">
+    <ion-list id="list-recipe-type">
         <div id="searchRecipeList">
-            <ion-item *ngFor="let recipe of recipeSearchingData"
+            <ion-item *ngFor="let recipe of forSearchRecipes"
                       [routerLink]="['./' + recipe.type + '/' + recipe.id]"
                       (click)="handleHistoryChange(recipe.id, recipe.title, recipe.type, recipe.imageUrl)"
             >
@@ -97,7 +103,7 @@
         <div id="list-none">
             <ion-row *ngIf="mostSimilarRecipes.length === 0" justify-content-center class="mark-no-list">
                 <ion-col text-center size="8" align-self-center>
-                    <ion-img class="ion-padding" src="../../assets/none-similar.png"></ion-img>
+                    <ion-img class="ion-padding" src="../../assets/none-similar.png" alt="none-similar.png"></ion-img>
                     <br>
                     <ion-label color="success">Tidak ada hasil pencarian termirip</ion-label>
                 </ion-col>
@@ -106,7 +112,8 @@
                 Mungkin yang Anda maksud
             </ion-label>
             <ion-item *ngFor="let recipe of mostSimilarRecipes"
-                      [routerLink]="['../', recipe.type, recipe.id]">
+                      [routerLink]="['../', recipe.type, recipe.id]"
+                      (click)="handleHistoryChange(recipe.id, recipe.title, recipe.type, recipe.imageUrl)">
                 {{recipe.title}}
             </ion-item>
         </div>

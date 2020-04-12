@@ -1,25 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipeService } from '../../services/recipe.service';
-import { Storage } from '@ionic/storage';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { StorageService } from '../../services/storage.service';
-import { Router } from '@angular/router';
 
-export interface Distance {
+export interface HighestScoreRecipe {
   title: string;
   value: number;
 }
 
 export interface Recipe {
-  id: string;
-  imageUrl: string;
+  id?: string;
+  imageUrl?: string;
   type?: string;
   title: string;
   portions?: string;
   duration?: string;
-  steps?: string;
-  ingredients?: string;
+  ingredients?: Ingredient[];
+  steps?: Step[];
   jaroWinklerDistance?: number;
+}
+
+export interface Ingredient {
+  ingredientType: string;
+  ingredientDetail: string[];
+}
+
+export interface Step {
+  stepType: string;
+  stepDetail: string[];
 }
 
 @Component({
@@ -29,31 +37,27 @@ export interface Recipe {
 })
 
 export class BerandaPage implements OnInit {
-  recipeSearchingData: Recipe[] = [];
+  forSearchRecipes: Recipe[] = [];
+  searchQuery = '';
   mostSimilarRecipes: Recipe[] = [];
-  isSearchFocus = true;
-  querySearch = '';
+  isSearchFocus = false;
+  recipeType: string;
+  recipeTypeDisplay: string;
 
   constructor(
     public recipeService: RecipeService,
-    public storage: Storage,
     public loadingController: LoadingController,
     public storageService: StorageService,
-    private router: Router,
     public alertController: AlertController
   ) {
   }
 
   async ngOnInit() {
     this.presentLoading();
-    if (this.recipeSearchingData.length === 0) {
-      await this.getTitle();
+    if (this.forSearchRecipes.length === 0) {
+      this.getForSearchRecipes();
     }
-    document.getElementById('list-menu').style.display = 'none';
-    const searchbar = document.querySelector('ion-searchbar');
-    // searchbar.addEventListener('ionInput', this.handleInput);
-    searchbar.addEventListener('ionFocus', this.handleFocus);
-    searchbar.addEventListener('ionCancel', this.handleCancel);
+    document.getElementById('list-recipe-type').style.display = 'none';
   }
 
   async presentLoading() {
@@ -64,8 +68,8 @@ export class BerandaPage implements OnInit {
     await loading.present();
   }
 
-  async getTitle() {
-    this.recipeSearchingData = await this.recipeService.getRecipe();
+  getForSearchRecipes() {
+    this.forSearchRecipes = this.recipeService.getForSearchRecipes();
   }
 
   async handleExitApp() {
@@ -88,69 +92,95 @@ export class BerandaPage implements OnInit {
     await alert.present();
   }
 
+  handleInput(event) {
+    this.searchQuery = event.target.value.toLowerCase();
+    const recipeList = Array.from(document.getElementById('searchRecipeList').children);
+    let falseCount = 0;
+    requestAnimationFrame(async () => {
+      for (const recipe of recipeList) {
+        const shouldShow = recipe.textContent.toLowerCase().indexOf(this.searchQuery) > -1;
+        // @ts-ignore
+        recipe.style.display = shouldShow ? 'block' : 'none';
+        if (shouldShow === false) {
+          falseCount++;
+        }
+        if (falseCount === recipeList.length) {
+          document.getElementById('list-none').style.display = 'block';
+          this.calculateJaroDistance(this.searchQuery);
+          // this.testCalculateJaroDistance(this.searchQuery);
+        } else {
+          document.getElementById('list-none').style.display = 'none';
+        }
+      }
+    });
+
+    if (this.searchQuery.length > 0) {
+      document.getElementById('list-recipe-type').style.display = 'block';
+    } else {
+      document.getElementById('list-recipe-type').style.display = 'none';
+    }
+  }
+
   calculateJaroDistance(searchQuery) {
-    const listJaroWinklerDistance: Distance[] = [];
-    let counter = 0;
-    const string1 = searchQuery.toLowerCase();
-    const string1Len = string1.length;
-    for (const data of this.recipeSearchingData) {
-      counter++;
-      const string2 = data.title.toLowerCase();
-      let jaroDistance = 0;
+    const highestScoreRecipes: HighestScoreRecipe[] = [];
+    const firstString = searchQuery.toLowerCase();
+    const firstStringLen = firstString.length;
+    for (const recipe of this.forSearchRecipes) {
       let jaroWinklerDistance = 0;
-      let totalPrefix = 0;
+      const secondString = recipe.title.toLowerCase();
+      const secondStringLen = secondString.length;
+
+      const firstStringMatches = [];
+      const secondStringMatches = [];
+
+      const maxMatchDistance = Math.floor(secondStringLen / 2) - 1;
       let matches = 0;
-      const string2Len = string2.length;
-      let transpositions = 0;
 
-      const string1Matches = [];
-      const string2Matches = [];
-
-      const maxMatchDistance = Math.floor(string2Len / 2) - 1;
-
-      for (let i = 0; i < string1Len; i++) {
+      for (let i = 0; i < firstStringLen; i++) {
         const start = Math.max(0, i - maxMatchDistance);
-        const end = Math.min(i + maxMatchDistance + 1, string2Len);
+        const end = Math.min(i + maxMatchDistance + 1, secondStringLen);
 
         for (let j = start; j < end; j++) {
-          if (string1Matches[j]) {
+          if (secondStringMatches[j]) {
             continue;
           }
-          if (string1[i] !== string2[j]) {
+          if (firstString[i] !== secondString[j]) {
             continue;
           }
-          string1Matches[i] = true;
-          string2Matches[j] = true;
+          firstStringMatches[i] = true;
+          secondStringMatches[j] = true;
           matches++;
           break;
         }
       }
 
       let k = 0;
-      for (let a = 0; a < string1Len; a++) {
+      let transpositions = 0;
+      for (let a = 0; a < firstStringLen; a++) {
         // // if there are no matches in str1 continue
-        if (!string1Matches[a]) {
+        if (!firstStringMatches[a]) {
           continue;
         }
         // // while there is no match in str2 increment k
-        for (const string2match of string2Matches) {
-          if (string2match === true) {
-            break;
-          }
+        while (!secondStringMatches[k]) {
+          k++;
         }
         // // increment transpositions
-        if (string1[a] !== string2[k]) {
+        if (firstString[a] !== secondString[k]) {
           transpositions++;
         }
         k++;
       }
 
-      transpositions /= 2;
+      transpositions = Math.ceil(transpositions / 2);
 
-      jaroDistance = ((matches / string1Len) + (matches / string2Len) + ((matches - transpositions) / matches)) / 3.0;
+      let jaroDistance = 0;
 
+      jaroDistance = ((matches / firstStringLen) + (matches / secondStringLen) + ((matches - transpositions) / matches)) / 3.0;
+
+      let totalPrefix = 0;
       for (let i = 0; i < 4; i++) {
-        if (string1[i] === string2[i]) {
+        if (firstString[i] === secondString[i]) {
           totalPrefix++;
         }
       }
@@ -159,43 +189,15 @@ export class BerandaPage implements OnInit {
 
 
       if (jaroWinklerDistance >= 0.7) {
-        listJaroWinklerDistance.push({
-          title: string2,
+        highestScoreRecipes.push({
+          title: secondString,
           value: jaroWinklerDistance
         });
       }
     }
-    this.recipeService.getSearchedRecipe(listJaroWinklerDistance);
-    this.mostSimilarRecipes = this.recipeService.mostSimilarRecipesSvc.sort((a, b) =>
+    this.recipeService.getMostSimilarRecipes(highestScoreRecipes);
+    this.mostSimilarRecipes = this.recipeService.mostSimilarRecipes.sort((a, b) =>
       (a.jaroWinklerDistance < b.jaroWinklerDistance) ? 1 : -1);
-  }
-
-  handleInput(event) {
-    this.querySearch = event.target.value.toLowerCase();
-    const itemList = Array.from(document.getElementById('searchRecipeList').children);
-    let countFalse = 0;
-    requestAnimationFrame(async () => {
-      for (const item of itemList) {
-        const shouldShow = item.textContent.toLowerCase().indexOf(this.querySearch) > -1;
-        // @ts-ignore
-        item.style.display = shouldShow ? 'block' : 'none';
-        if (shouldShow === false) {
-          countFalse++;
-        }
-        if (countFalse === itemList.length) {
-          document.getElementById('list-none').style.display = 'block';
-          this.calculateJaroDistance(this.querySearch);
-        } else {
-          document.getElementById('list-none').style.display = 'none';
-        }
-      }
-    });
-
-    if (this.querySearch.length > 0) {
-      document.getElementById('list-menu').style.display = 'block';
-    } else {
-      document.getElementById('list-menu').style.display = 'none';
-    }
   }
 
   handleFocus() {
@@ -208,7 +210,43 @@ export class BerandaPage implements OnInit {
     document.getElementById('grid-menu').style.display = 'block';
   }
 
-  handleHistoryChange(id, title, type, imageUrl) {
-    this.storageService.updateHistory(id, title, type, imageUrl);
+  getRecipeTypeDisplay() {
+    switch (this.recipeType) {
+      case 'daging':
+        this.recipeTypeDisplay = 'Daging';
+        break;
+      case 'nasi':
+        this.recipeTypeDisplay = 'Nasi';
+        break;
+      case 'vegetarian':
+        this.recipeTypeDisplay = 'Vegetarian';
+        break;
+      case 'ikanSeafood':
+        this.recipeTypeDisplay = 'Ikan/Seafood';
+        break;
+      case 'mi':
+        this.recipeTypeDisplay = 'Mi';
+        break;
+      case 'kue':
+        this.recipeTypeDisplay = 'Kue';
+        break;
+      case 'masakanJepang':
+        this.recipeTypeDisplay = 'Masakan Jepang';
+        break;
+      case 'masakanTiongkok':
+        this.recipeTypeDisplay = 'Masakan Tiongkok';
+        break;
+      case 'masakanItalia':
+        this.recipeTypeDisplay = 'Masakan Italia';
+        break;
+      default:
+        this.recipeTypeDisplay = 'kosong';
+    }
+  }
+
+  handleHistoryChange(id, recipeTitle, recipeType, recipeImageUrl) {
+    this.recipeType = recipeType;
+    this.getRecipeTypeDisplay();
+    this.storageService.updateHistory(id, recipeTitle, this.recipeTypeDisplay, recipeImageUrl);
   }
 }

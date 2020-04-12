@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
-export interface DataStorage {
+export interface StorageRecipe {
   id: number;
   title: string;
   type: string;
@@ -12,8 +12,8 @@ export interface DataStorage {
   providedIn: 'root'
 })
 export class StorageService {
-  toKeepBookmark: DataStorage[] = [];
-  toKeepHistory: DataStorage[] = [];
+  toKeepBookmark: StorageRecipe[] = [];
+  toKeepHistory: StorageRecipe[] = [];
   sameDataStorage = false;
   isBookmark: boolean;
 
@@ -22,8 +22,8 @@ export class StorageService {
   ) {
   }
 
-  async updateBookmark(recipeId, recipeTitle, menuType, recipeImageUrl) {
-    await this.storage.get('bookmark').then((bookmarks: DataStorage[]) => {
+  async updateBookmark(recipeId, recipeTitle, recipeType, recipeImageUrl) {
+    await this.storage.get('bookmarks').then((bookmarks: StorageRecipe[]) => {
       if (bookmarks) {
         this.toKeepBookmark = [];
         for (const bookmark in bookmarks) {
@@ -35,14 +35,14 @@ export class StorageService {
           }
         }
         if (!this.sameDataStorage) {
-          this.toKeepBookmark.push({ id: recipeId, title: recipeTitle, type: menuType, imageUrl: recipeImageUrl });
+          this.toKeepBookmark.push({ id: recipeId, title: recipeTitle, type: recipeType, imageUrl: recipeImageUrl });
           this.isBookmark = true;
         }
-        this.storage.set('bookmark', this.toKeepBookmark);
+        this.storage.set('bookmarks', this.toKeepBookmark);
         this.sameDataStorage = false;
       } else {
-        this.toKeepBookmark.push({ id: recipeId, title: recipeTitle, type: menuType, imageUrl: recipeImageUrl });
-        this.storage.set('bookmark', this.toKeepBookmark);
+        this.toKeepBookmark.push({ id: recipeId, title: recipeTitle, type: recipeType, imageUrl: recipeImageUrl });
+        this.storage.set('bookmarks', this.toKeepBookmark);
         this.toKeepBookmark = [];
         this.isBookmark = true;
       }
@@ -50,17 +50,8 @@ export class StorageService {
     return this.isBookmark;
   }
 
-  async deleteAllBookmark() {
-    await this.storage.get('bookmark').then((bookmarks: DataStorage[]) => {
-      if (bookmarks) {
-        this.toKeepBookmark = [];
-        this.storage.set('bookmark', this.toKeepBookmark);
-      }
-    });
-  }
-
   async deleteBookmark(recipeTitle) {
-    await this.storage.get('bookmark').then((bookmarks: DataStorage[]) => {
+    await this.storage.get('bookmarks').then((bookmarks: StorageRecipe[]) => {
       if (bookmarks) {
         this.toKeepBookmark = [];
         for (const bookmark in bookmarks) {
@@ -68,13 +59,22 @@ export class StorageService {
             this.toKeepBookmark.push(bookmarks[bookmark]);
           }
         }
-        this.storage.set('bookmark', this.toKeepBookmark);
+        this.storage.set('bookmarks', this.toKeepBookmark);
+      }
+    });
+  }
+
+  async deleteAllBookmark() {
+    await this.storage.get('bookmarks').then((bookmarks: StorageRecipe[]) => {
+      if (bookmarks) {
+        this.toKeepBookmark = [];
+        this.storage.set('bookmarks', this.toKeepBookmark);
       }
     });
   }
 
   async updateHistory(recipeId, recipeTitle, menuType, recipeImageUrl) {
-    await this.storage.get('history').then((histories: DataStorage[]) => {
+    await this.storage.get('histories').then((histories: StorageRecipe[]) => {
       if (histories) {
         this.toKeepHistory = [];
         for (const history in histories) {
@@ -86,27 +86,18 @@ export class StorageService {
         if (!this.sameDataStorage) {
           this.toKeepHistory.push({ id: recipeId, title: recipeTitle, type: menuType, imageUrl: recipeImageUrl });
         }
-        this.storage.set('history', this.toKeepHistory);
+        this.storage.set('histories', this.toKeepHistory);
         this.sameDataStorage = false;
       } else {
         this.toKeepHistory.push({ id: recipeId, title: recipeTitle, type: menuType, imageUrl: recipeImageUrl });
-        this.storage.set('history', this.toKeepHistory);
+        this.storage.set('histories', this.toKeepHistory);
         this.toKeepHistory = [];
-      }
-    });
-  }
-
-  async deleteAllHistory() {
-    await this.storage.get('history').then((histories: DataStorage[]) => {
-      if (histories) {
-        this.toKeepHistory = [];
-        this.storage.set('history', this.toKeepHistory);
       }
     });
   }
 
   async deleteHistory(recipeTitle) {
-    await this.storage.get('history').then((histories: DataStorage[]) => {
+    await this.storage.get('histories').then((histories: StorageRecipe[]) => {
       if (histories) {
         this.toKeepHistory = [];
         for (const history in histories) {
@@ -114,7 +105,16 @@ export class StorageService {
             this.toKeepHistory.push(histories[history]);
           }
         }
-        this.storage.set('history', this.toKeepHistory);
+        this.storage.set('histories', this.toKeepHistory);
+      }
+    });
+  }
+
+  async deleteAllHistory() {
+    await this.storage.get('histories').then((histories: StorageRecipe[]) => {
+      if (histories) {
+        this.toKeepHistory = [];
+        this.storage.set('histories', this.toKeepHistory);
       }
     });
   }

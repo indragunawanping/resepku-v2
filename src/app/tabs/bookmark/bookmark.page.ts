@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataStorage, StorageService } from '../../services/storage.service';
+import { StorageRecipe, StorageService } from '../../services/storage.service';
 import { Storage } from '@ionic/storage';
 import { AlertController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -10,55 +10,50 @@ import { Router } from '@angular/router';
   styleUrls: ['./bookmark.page.scss'],
 })
 export class BookmarkPage implements OnInit {
-  bookmarks: DataStorage[] = [];
+  bookmarks: StorageRecipe[] = [];
 
   ionViewWillEnter() {
-    this.getBookmark();
+    this.getBookmarks();
   }
 
   constructor(
     public storage: Storage,
     public alertController: AlertController,
     public storageService: StorageService,
-    private router: Router,
+    public router: Router,
     public toastController: ToastController
   ) {
   }
 
   ngOnInit() {
-    this.getBookmark();
   }
 
-  async getBookmark(): Promise<any> {
-    await this.storage.get('bookmark').then((bookmarks: DataStorage[]) => {
+  async getBookmarks(): Promise<any> {
+    await this.storage.get('bookmarks').then((bookmarks: StorageRecipe[]) => {
       if (bookmarks) {
         this.bookmarks = [];
-        for (const bookmark in bookmarks) {
-          if (bookmark) {
-            switch (bookmarks[bookmark].type) {
+        for (const bookmarkKey in bookmarks) {
+          if (bookmarkKey) {
+            switch (bookmarks[bookmarkKey].type) {
               case 'masakanJepang':
-                bookmarks[bookmark].type = 'Masakan Jepang';
+                bookmarks[bookmarkKey].type = 'Masakan Jepang';
                 break;
               case 'masakanTiongkok':
-                bookmarks[bookmark].type = 'Masakan Tiongkok';
+                bookmarks[bookmarkKey].type = 'Masakan Tiongkok';
                 break;
               case 'masakanItalia':
-                bookmarks[bookmark].type = 'Masakan Italia';
+                bookmarks[bookmarkKey].type = 'Masakan Italia';
                 break;
             }
-            this.bookmarks.push(bookmarks[bookmark]);
+            this.bookmarks.push(bookmarks[bookmarkKey]);
           }
         }
       }
     });
-    console.log('this.bookmarks: ', this.bookmarks);
   }
 
   handleItemClick(recipeType, recipeId) {
     switch (recipeType) {
-      case 'Vegetarian':
-        recipeType = 'vegetarian';
-        break;
       case 'Ikan/Seafood':
         recipeType = 'ikanSeafood';
         break;
@@ -89,7 +84,7 @@ export class BookmarkPage implements OnInit {
           text: 'Ya, Saya yakin',
           handler: async () => {
             await this.storageService.deleteAllBookmark();
-            this.getBookmark();
+            this.getBookmarks();
             this.deleteAllBookmarkToast();
           }
         }
@@ -108,7 +103,7 @@ export class BookmarkPage implements OnInit {
 
   async handleButtonDeleteClick(recipeTitle) {
     const alert = await this.alertController.create({
-      message: '<strong>Hapus</strong> dari bookmark?',
+      message: '<strong>Hapus</strong> dari Bookmark?',
       buttons: [
         {
           text: 'Tidak',
@@ -118,7 +113,7 @@ export class BookmarkPage implements OnInit {
           text: 'Ya, Saya yakin',
           handler: async () => {
             await this.storageService.deleteBookmark(recipeTitle);
-            this.getBookmark();
+            this.getBookmarks();
             this.deleteBookmarkToast(recipeTitle);
           }
         }

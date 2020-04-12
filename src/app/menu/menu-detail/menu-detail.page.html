@@ -3,36 +3,36 @@
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-title>  {{ recipes[2] }} </ion-title>
+        <ion-title>  {{ recipeDetail[0].title }} </ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-fab-button class="fab-bookmark" color="success"
-                (click)="handleBookmarkChange(recipes[0], recipes[2], recipes[6])">
+                (click)="handleBookmarkChange(recipeDetail[0].id, recipeDetail[0].title, recipeDetail[0].imageUrl)">
     <img class="fab-bookmark-outline icon-bookmark" src="../../../assets/icon-bookmark-outline.png"
          alt="icon-bookmark-outline.png">
     <div *ngFor="let bookmark of bookmarks; let j = index">
-        <img *ngIf="bookmark.title === recipes[2]" class="icon-bookmark" src="../../../assets/icon-bookmark-fill.png"
+        <img *ngIf="bookmark.title === recipeDetail[0].title" class="icon-bookmark" src="../../../assets/icon-bookmark-fill.png"
              alt="icon-bookmark-fill.png">
     </div>
 </ion-fab-button>
 <ion-content>
     <ion-card>
-        <img *ngIf="recipes[6] !== 'N/A'" src="{{ recipes[6] }}" alt="Menu Image">
-        <img *ngIf="recipes[6] === 'N/A'" src="../../../assets/no-image-available.png" alt="no-image-available">
+        <img *ngIf="recipeDetail[0].imageUrl !== 'N/A'" src="{{ recipeDetail[0].imageUrl }}" alt="menu-image">
+        <img *ngIf="recipeDetail[0].imageUrl === 'N/A'" src="../../../assets/no-image-available.png" alt="no-image-available.png">
         <ion-card-content>
             <b class="content-center text-title-1">
-                {{ recipes[2] }}
+                {{ recipeDetail[0].title }}
             </b>
             <br>
             <ion-row>
                 <ion-col size="6" no-padding class="content-center">
                     <ion-icon color="primary" name="pizza"></ion-icon>
-                    <span> {{ recipes[5] }}</span>
+                    <span> {{ recipeDetail[0].portions }}</span>
                 </ion-col>
                 <ion-col size="6" no-padding class="content-center">
                     <ion-icon color="primary" name="timer"></ion-icon>
-                    <span> {{ recipes[3] }}</span>
+                    <span> {{ recipeDetail[0].duration }}</span>
                 </ion-col>
             </ion-row>
             <br>
@@ -42,14 +42,14 @@
                 BAHAN-BAHAN
             </div>
             <br>
-            <ion-row *ngFor="let bahan of recipes[1]" class="text-title-3">
-                {{ bahan['jenisBahan'] }}
-                <ion-row *ngFor="let recipe2 of bahan['bahanBahan'] let idx = index" class="text-detail">
+            <ion-row *ngFor="let ingredient of recipeDetail[0].ingredients" class="text-title-3">
+                {{ ingredient.ingredientType }}
+                <ion-row *ngFor="let ingredientDetail of ingredient.ingredientDetail; let idx = index" class="text-detail">
                     <ion-col size="1">
                         {{ idx + 1 }}.
                     </ion-col>
                     <ion-col size="10">
-                        {{ recipe2 }}
+                        {{ ingredientDetail }}
                     </ion-col>
                 </ion-row>
                 <br>
@@ -60,14 +60,14 @@
                 LANGKAH-LANGKAH
             </div>
             <br>
-            <ion-row *ngFor="let langkah of recipes[4]" class="text-title-3">
-                {{ langkah['jenisLangkah'] }}
-                <ion-row *ngFor="let recipe2 of langkah['langkahLangkah'] let idx = index" class="text-detail">
+            <ion-row *ngFor="let step of recipeDetail[0].steps" class="text-title-3">
+                {{ step.stepType }}
+                <ion-row *ngFor="let stepDetail of step.stepDetail; let idx = index" class="text-detail">
                     <ion-col size="1">
                         {{ idx + 1 }}.
                     </ion-col>
                     <ion-col size="10">
-                        {{ recipe2 }}
+                        {{ stepDetail }}
                     </ion-col>
                 </ion-row>
                 <br>

@@ -10,7 +10,7 @@ const routes: Routes = [
   //   loadChildren: './menu/search-result-menu/search-result-menu.module#SearchResultMenuPageModule'
   // },
   {
-    path: 'tabs/beranda/:menuType',
+    path: 'tabs/beranda/:recipeType',
     loadChildren: './menu/menus/menus.module#MenusPageModule'
   },
   {

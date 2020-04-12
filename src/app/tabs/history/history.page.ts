@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { AlertController, ToastController } from '@ionic/angular';
-import { DataStorage, StorageService } from '../../services/storage.service';
+import { StorageRecipe, StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-history',
@@ -9,10 +9,10 @@ import { DataStorage, StorageService } from '../../services/storage.service';
   styleUrls: ['./history.page.scss'],
 })
 export class HistoryPage implements OnInit {
-  histories: DataStorage[] = [];
+  histories: StorageRecipe[] = [];
 
   ionViewWillEnter() {
-    this.getHistory();
+    this.getHistories();
   }
 
   constructor(
@@ -24,27 +24,29 @@ export class HistoryPage implements OnInit {
   }
 
   ngOnInit() {
-    // this.getHistory();
   }
 
-  async getHistory() {
-    await this.storage.get('history').then((histories: DataStorage[]) => {
+  async getHistories() {
+    await this.storage.get('histories').then((histories: StorageRecipe[]) => {
       if (histories) {
         this.histories = [];
-        for (const history in histories) {
-          if (history) {
-            switch (histories[history].type) {
+        for (const historyKey in histories) {
+          if (historyKey) {
+            switch (histories[historyKey].type) {
+              case 'ikanSeafood':
+                histories[historyKey].type = 'Ikan/Seafood';
+                break;
               case 'masakanJepang':
-                histories[history].type = 'masakan jepang';
+                histories[historyKey].type = 'Masakan Jepang';
                 break;
               case 'masakanTiongkok':
-                histories[history].type = 'masakan tiongkok';
+                histories[historyKey].type = 'Masakan Tiongkok';
                 break;
               case 'masakanItalia':
-                histories[history].type = 'masakan italia';
+                histories[historyKey].type = 'Masakan Italia';
                 break;
             }
-            this.histories.push(histories[history]);
+            this.histories.push(histories[historyKey]);
           }
         }
       }
@@ -63,7 +65,7 @@ export class HistoryPage implements OnInit {
           text: 'Ya, Saya yakin',
           handler: async () => {
             await this.storageService.deleteAllHistory();
-            this.getHistory();
+            this.getHistories();
             this.deleteAllHistoryToast();
           }
         }
@@ -82,7 +84,7 @@ export class HistoryPage implements OnInit {
 
   async handleButtonDeleteClick(recipeTitle) {
     const alert = await this.alertController.create({
-      message: '<strong>Hapus</strong> dari history?',
+      message: '<strong>Hapus</strong> dari History?',
       buttons: [
         {
           text: 'Tidak',
@@ -92,7 +94,7 @@ export class HistoryPage implements OnInit {
           text: 'Ya, Saya yakin',
           handler: async () => {
             await this.storageService.deleteHistory(recipeTitle);
-            this.getHistory();
+            this.getHistories();
             this.deleteHistoryToast(recipeTitle);
           }
         }

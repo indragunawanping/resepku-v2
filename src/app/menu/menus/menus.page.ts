@@ -1,14 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RecipeService } from '../../services/recipe.service';
-import { DataStorage, StorageService } from '../../services/storage.service';
+import { StorageRecipe, StorageService } from '../../services/storage.service';
 import { Storage } from '@ionic/storage';
 import { ToastController } from '@ionic/angular';
 
-export interface Bookmark {
-  id: number;
+export interface Recipe {
+  id?: string;
+  imageUrl?: string;
+  type?: string;
   title: string;
-  type: string;
+  portions?: string;
+  duration?: string;
+  ingredients?: Ingredient[];
+  steps?: Step[];
+  jaroWinklerDistance?: number;
+}
+
+export interface Ingredient {
+  ingredientType: string;
+  ingredientDetail: string[];
+}
+
+export interface Step {
+  stepType: string;
+  stepDetail: string[];
 }
 
 @Component({
@@ -16,16 +32,17 @@ export interface Bookmark {
   templateUrl: './menus.page.html',
   styleUrls: ['./menus.page.scss'],
 })
+
 export class MenusPage implements OnInit {
-  menuType: string;
-  recipeTitle: string;
-  recipes: any;
-  bookmarks: DataStorage[] = [];
+  recipeType: string;
+  recipeTypeDisplay: string;
+  recipes: Recipe[];
+  bookmarks: StorageRecipe[] = [];
   isBookmark: boolean;
   messageToast: string;
 
   ionViewWillEnter() {
-    this.getBookmark();
+    this.getBookmarks();
   }
 
   constructor(
@@ -35,61 +52,58 @@ export class MenusPage implements OnInit {
     public storage: Storage,
     public toastController: ToastController,
   ) {
-    this.getBookmark();
   }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(
       async paramMap => {
-        if (paramMap.has('menuType')) {
-          this.menuType = paramMap.get('menuType');
-          this.getMenuTitle();
-          this.recipes = this.recipeService.getAllRecipesSvc(this.menuType);
+        if (paramMap.has('recipeType')) {
+          this.recipeType = paramMap.get('recipeType');
+          this.recipes = this.recipeService.getRecipesByType(this.recipeType);
+          this.getRecipeTypeDisplay();
         } else {
           return;
         }
       }
     );
-    this.getBookmark();
-    console.log('recipesData: ', this.recipes);
   }
 
-  getMenuTitle() {
-    switch (this.menuType) {
+  getRecipeTypeDisplay() {
+    switch (this.recipeType) {
       case 'daging':
-        this.recipeTitle = 'Daging';
+        this.recipeTypeDisplay = 'Daging';
         break;
       case 'nasi':
-        this.recipeTitle = 'Nasi';
+        this.recipeTypeDisplay = 'Nasi';
         break;
       case 'vegetarian':
-        this.recipeTitle = 'Vegetarian';
+        this.recipeTypeDisplay = 'Vegetarian';
         break;
       case 'ikanSeafood':
-        this.recipeTitle = 'Ikan/Seafood';
+        this.recipeTypeDisplay = 'Ikan/Seafood';
         break;
       case 'mi':
-        this.recipeTitle = 'Mi';
+        this.recipeTypeDisplay = 'Mi';
         break;
       case 'kue':
-        this.recipeTitle = 'Kue';
+        this.recipeTypeDisplay = 'Kue';
         break;
       case 'masakanJepang':
-        this.recipeTitle = 'Masakan Jepang';
+        this.recipeTypeDisplay = 'Masakan Jepang';
         break;
       case 'masakanTiongkok':
-        this.recipeTitle = 'Masakan Tiongkok';
+        this.recipeTypeDisplay = 'Masakan Tiongkok';
         break;
       case 'masakanItalia':
-        this.recipeTitle = 'Masakan Italia';
+        this.recipeTypeDisplay = 'Masakan Italia';
         break;
       default:
-        this.recipeTitle = 'kosong';
+        this.recipeTypeDisplay = 'kosong';
     }
   }
 
-  async getBookmark(): Promise<any> {
-    await this.storage.get('bookmark').then((bookmarks: DataStorage[]) => {
+  async getBookmarks(): Promise<any> {
+    await this.storage.get('bookmarks').then((bookmarks: StorageRecipe[]) => {
       if (bookmarks) {
         this.bookmarks = [];
         for (const bookmark in bookmarks) {
@@ -102,8 +116,8 @@ export class MenusPage implements OnInit {
   }
 
   async handleBookmarkChange(recipeId, recipeTitle, recipeImageUrl) {
-    this.isBookmark = await this.storageService.updateBookmark(recipeId, recipeTitle, this.recipeTitle, recipeImageUrl);
-    this.getBookmark();
+    this.isBookmark = await this.storageService.updateBookmark(recipeId, recipeTitle, this.recipeTypeDisplay, recipeImageUrl);
+    this.getBookmarks();
     this.presentToast(recipeTitle);
   }
 
@@ -120,7 +134,9 @@ export class MenusPage implements OnInit {
     toast.present();
   }
 
-  handleHistoryChange(id, title, type, imageUrl) {
-    this.storageService.updateHistory(id, title, type, imageUrl);
+  handleHistoryChange(recipeId, recipeTitle, recipeType, recipeImageUrl) {
+    this.recipeType = recipeType;
+    this.getRecipeTypeDisplay();
+    this.storageService.updateHistory(recipeId, recipeTitle, this.recipeTypeDisplay, recipeImageUrl);
   }
 }

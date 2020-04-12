@@ -3,15 +3,25 @@ import * as firebase from 'firebase';
 import { Storage } from '@ionic/storage';
 
 export interface Recipe {
-  id: string;
-  imageUrl: string;
+  id?: string;
+  imageUrl?: string;
   type?: string;
   title: string;
   portions?: string;
   duration?: string;
-  steps?: string;
-  ingredients?: string;
+  ingredients?: Ingredient[];
+  steps?: Step[];
   jaroWinklerDistance?: number;
+}
+
+export interface Ingredient {
+  ingredientType: string;
+  ingredientDetail: string[];
+}
+
+export interface Step {
+  stepType: string;
+  stepDetail: string[];
 }
 
 @Injectable({
@@ -19,41 +29,108 @@ export interface Recipe {
 })
 
 export class RecipeService {
-  recipesDataSvc: string[] = [];
-  recipeDataSvc: string[] = [];
-  searchRecipe: Recipe[] = [];
-  mostSimilarRecipesSvc: Recipe[] = [];
-  foodType = ['daging', 'nasi', 'vegetarian',
+  recipesByType: Recipe[] = [];
+  recipeDetail: Recipe[] = [];
+  forSearchRecipes: Recipe[] = [];
+  mostSimilarRecipes: Recipe[] = [];
+  recipeTypes = ['daging', 'nasi', 'vegetarian',
     'ikanSeafood', 'mi', 'kue',
     'masakanJepang', 'masakanTiongkok', 'masakanItalia'];
 
   constructor(public storage: Storage) {
   }
 
-  getRecipe() {
-    for (const type of this.foodType) {
+  extractStep(steps) {
+    const formattedSteps: Step[] = [];
+    for (const step of steps) {
+      formattedSteps.push({
+        stepType: step.jenisLangkah,
+        stepDetail: step.langkahLangkah
+      });
+    }
+
+    return formattedSteps;
+  }
+
+  extractIngredient(ingredients) {
+    const formattedIngredients: Ingredient[] = [];
+    for (const ingredient of ingredients) {
+      formattedIngredients.push({
+        ingredientType: ingredient.jenisBahan,
+        ingredientDetail: ingredient.bahanBahan
+      });
+    }
+
+    return formattedIngredients;
+  }
+
+  getRecipeDetail(recipeType, index) {
+    const recipeRef = firebase.database().ref('resep/' + recipeType + '/' + index);
+    this.recipeDetail = [];
+
+    recipeRef.on('value', (snapshot) => {
+      const snapshotVal = snapshot.val();
+      let recipeDetailFromBackEnd;
+      recipeDetailFromBackEnd = Object.values(snapshotVal);
+
+      this.recipeDetail.push({
+        id: index,
+        imageUrl: recipeDetailFromBackEnd[5],
+        type: recipeType,
+        title: recipeDetailFromBackEnd[1],
+        portions: recipeDetailFromBackEnd[4],
+        duration: recipeDetailFromBackEnd[2],
+        ingredients: this.extractIngredient(recipeDetailFromBackEnd[0]),
+        steps: this.extractStep(recipeDetailFromBackEnd[3])
+      });
+    });
+
+    return this.recipeDetail;
+  }
+
+  getRecipesByType(recipeType) {
+    const recipeRef = firebase.database().ref('resep/' + recipeType);
+    this.recipesByType = [];
+    recipeRef.on('value', (snapshot) => {
+      const snapshotVal = snapshot.val();
+      for (const recipe of snapshotVal) {
+        this.recipesByType.push({
+          title: recipe.judul,
+          imageUrl: recipe.urlGambar,
+          portions: recipe.porsi,
+          duration: recipe.lama
+        });
+      }
+    });
+
+    return this.recipesByType;
+  }
+
+  getForSearchRecipes() {
+    for (const type of this.recipeTypes) {
       const recipeRef = firebase.database().ref('resep/' + type);
       recipeRef.on('value', (snapshot) => {
         const snapshotVal = snapshot.val();
         for (const index in snapshotVal) {
           if (snapshotVal.hasOwnProperty(index)) {
-            this.searchRecipe.push({
+            this.forSearchRecipes.push({
               id: index,
               title: snapshotVal[index].judul,
               type,
-              imageUrl: snapshotVal[index].gambar
+              imageUrl: snapshotVal[index].urlGambar
             });
           }
         }
       });
     }
-    return this.searchRecipe;
+
+    return this.forSearchRecipes;
   }
 
-  getSearchedRecipe(listJaroWinklerDistance) {
-    this.mostSimilarRecipesSvc = [];
-    for (const type of this.foodType) {
-      const recipeRef = firebase.database().ref('resep/' + type);
+  getMostSimilarRecipes(listJaroWinklerDistance) {
+    this.mostSimilarRecipes = [];
+    for (const recipeType of this.recipeTypes) {
+      const recipeRef = firebase.database().ref('resep/' + recipeType);
       recipeRef.on('value', (snapshot) => {
         const snapshotVal = snapshot.val();
         for (const index in snapshotVal) {
@@ -61,15 +138,11 @@ export class RecipeService {
             for (const listJaroWinkler in listJaroWinklerDistance) {
               if (listJaroWinklerDistance.hasOwnProperty(listJaroWinkler)) {
                 if ((snapshotVal[index].judul).toLowerCase() === listJaroWinklerDistance[listJaroWinkler].title) {
-                  this.mostSimilarRecipesSvc.push({
+                  this.mostSimilarRecipes.push({
                     id: index,
-                    ingredients: snapshotVal[index].bahan,
-                    imageUrl: snapshotVal[index].gambar,
                     title: snapshotVal[index].judul,
-                    duration: snapshotVal[index].lama,
-                    steps: snapshotVal[index].langkah,
-                    portions: snapshotVal[index].porsi,
-                    type,
+                    type: recipeType,
+                    imageUrl: snapshotVal[index].urlGambar,
                     jaroWinklerDistance: listJaroWinklerDistance[listJaroWinkler].value
                   });
                 }
@@ -79,45 +152,5 @@ export class RecipeService {
         }
       });
     }
-    console.log('mostSimilarRecipe: ', this.mostSimilarRecipesSvc);
-    return this.mostSimilarRecipesSvc;
-  }
-
-  setSearchedRecipeEmpty() {
-    this.mostSimilarRecipesSvc = [];
-  }
-
-  getAllRecipesSvc(path) {
-    const recipeRef = firebase.database().ref('resep/' + path);
-    this.recipesDataSvc = [];
-    recipeRef.on('value', (snapshot) => {
-      const snapshotVal = snapshot.val();
-      for (const index in snapshotVal) {
-        if (snapshotVal.hasOwnProperty(index)) {
-          this.recipesDataSvc.push(snapshotVal[index]);
-        }
-      }
-    });
-    return this.recipesDataSvc;
-  }
-
-  getRecipeSvc(path, index) {
-    const recipeRef = firebase.database().ref('resep/' + path + '/' + index);
-    this.recipeDataSvc = [];
-    recipeRef.on('value', (snapshot) => {
-      const snapshotVal = snapshot.val();
-      this.recipeDataSvc.push(index);
-      for (const recipe in snapshotVal) {
-        if (snapshotVal.hasOwnProperty(recipe)) {
-          this.recipeDataSvc.push(snapshotVal[recipe]);
-        }
-      }
-    });
-    return this.recipeDataSvc;
-  }
-
-  getTest() {
-    console.log('test');
-    return 0;
   }
 }
