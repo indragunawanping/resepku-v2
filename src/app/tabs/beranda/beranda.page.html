@@ -5,6 +5,9 @@
                 <ion-button class="ion-no-margin btn-header btn-credits" shape="round"
                             [routerLink]="['/credits']">Credits
                 </ion-button>
+<!--                <ion-button (click)="handleTestTypo()" class="ion-no-margin btn-header btn-credits" shape="round"-->
+<!--                            [routerLink]="['/credits']">Credits-->
+<!--                </ion-button>-->
             </ion-col>
             <ion-col size="4" class="logo-center">
                 <ion-img class="logo-risetta" src="../../assets/logo-risetta.png" alt="logo-risetta.png"></ion-img>
@@ -13,6 +16,9 @@
                 <ion-button (click)="handleExitApp()" class="ion-no-margin btn-header btn-exit" shape="round">
                     <ion-icon name="exit"></ion-icon>
                 </ion-button>
+<!--                <ion-button (click)="handleTypoGeneration()" class="ion-no-margin btn-header btn-exit" shape="round">-->
+<!--                    <ion-icon name="exit"></ion-icon>-->
+<!--                </ion-button>-->
             </ion-col>
         </ion-row>
     </ion-grid>
@@ -21,7 +27,7 @@
 <ion-content>
     <ion-row>
         <ion-col>
-            <ion-searchbar class="search-bar" (ionInput)="handleInput($event)" (ionFocus)="handleFocus()" (ionCancel)="handleCancel()" show-cancel-button="focus"
+            <ion-searchbar (ionInput)="handleInput($event)" (ionFocus)="handleFocus()" (ionCancel)="handleCancel()" show-cancel-button="focus"
                            placeholder="Cari resep di sini..."
                            color="success"></ion-searchbar>
         </ion-col>
@@ -33,8 +39,8 @@
             </ion-text>
             <strong> - Julia Child -</strong>
         </div>
-        <div class="content-center label-menu-type label-menu-type-margin-1" color="primary">
-            berdasarkan jenis/bahan utama
+        <div class="label-menu-type-2 label-menu-type-margin-2" color="primary">
+            <b>berdasarkan bahan utama</b>
         </div>
         <ion-row>
             <ion-col>
@@ -70,8 +76,8 @@
                 </div>
             </ion-col>
         </ion-row>
-        <div class="content-center label-menu-type label-menu-type-margin-2" color="primary">
-            berdasarkan negara
+        <div class="label-menu-type-2 label-menu-type-margin-2" color="primary">
+            <b>berdasarkan negara</b>
         </div>
         <ion-row>
             <ion-col>

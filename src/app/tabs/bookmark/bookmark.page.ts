@@ -95,7 +95,7 @@ export class BookmarkPage implements OnInit {
 
   async deleteAllBookmarkToast() {
     const toast = await this.toastController.create({
-      message: 'Semua Bookmark berhasil dihapus.',
+      message: 'Semua resep berhasil dihapus dari Bookmark.',
       duration: 500
     });
     toast.present();

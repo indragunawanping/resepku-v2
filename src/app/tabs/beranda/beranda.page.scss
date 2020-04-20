@@ -20,10 +20,6 @@
   float: right;
 }
 
-.search-bar{
-  padding-bottom: 0px;
-}
-
 .txt-container-quotes {
   font-size: smaller;
   margin-bottom: 13.5px;
@@ -35,12 +31,11 @@
   justify-content: center;
 }
 
-.label-menu-type {
+.label-menu-type-1 {
   background: #FAF3EB;
   font-size: smaller;
   color: #0F2A55;
   padding: 2px;
-  border: solid 1px #0F2A55;
   -moz-border-radius: 35px;
   -webkit-border-radius: 35px;
   -o-border-radius: 35px;
@@ -53,12 +48,17 @@
   box-shadow: 0 0 3px #ccc;
 }
 
+.label-menu-type-2 {
+  font-size: small;
+  color: #0F2A55;
+}
+
 .label-menu-type-margin-1 {
-  margin: 0px 19.5%;
+  margin: 0 19.5%;
 }
 
 .label-menu-type-margin-2 {
-  margin: 0px 29.5%;
+  margin: 2% 50% 2% 8px;
 }
 
 .mark-no-list{

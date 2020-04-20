@@ -113,6 +113,7 @@ export class RecipeService {
         const snapshotVal = snapshot.val();
         for (const index in snapshotVal) {
           if (snapshotVal.hasOwnProperty(index)) {
+            // console.log('\'' + snapshotVal[index].judul + '\',');
             this.forSearchRecipes.push({
               id: index,
               title: snapshotVal[index].judul,

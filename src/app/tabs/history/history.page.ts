@@ -76,7 +76,7 @@ export class HistoryPage implements OnInit {
 
   async deleteAllHistoryToast() {
     const toast = await this.toastController.create({
-      message: 'Semua history berhasil dihapus.',
+      message: 'Semua resep berhasil dihapus dari History.',
       duration: 500
     });
     toast.present();
