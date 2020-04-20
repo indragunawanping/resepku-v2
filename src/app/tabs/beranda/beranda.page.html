@@ -5,9 +5,6 @@
                 <ion-button class="ion-no-margin btn-header btn-credits" shape="round"
                             [routerLink]="['/credits']">Credits
                 </ion-button>
-<!--                <ion-button (click)="handleTestTypo()" class="ion-no-margin btn-header btn-credits" shape="round"-->
-<!--                            [routerLink]="['/credits']">Credits-->
-<!--                </ion-button>-->
             </ion-col>
             <ion-col size="4" class="logo-center">
                 <ion-img class="logo-risetta" src="../../assets/logo-risetta.png" alt="logo-risetta.png"></ion-img>
@@ -16,9 +13,6 @@
                 <ion-button (click)="handleExitApp()" class="ion-no-margin btn-header btn-exit" shape="round">
                     <ion-icon name="exit"></ion-icon>
                 </ion-button>
-<!--                <ion-button (click)="handleTypoGeneration()" class="ion-no-margin btn-header btn-exit" shape="round">-->
-<!--                    <ion-icon name="exit"></ion-icon>-->
-<!--                </ion-button>-->
             </ion-col>
         </ion-row>
     </ion-grid>
@@ -27,7 +21,7 @@
 <ion-content>
     <ion-row>
         <ion-col>
-            <ion-searchbar (ionInput)="handleInput($event)" (ionFocus)="handleFocus()" (ionCancel)="handleCancel()" show-cancel-button="focus"
+            <ion-searchbar class="search-bar" (ionInput)="handleInput($event)" (ionFocus)="handleFocus()" (ionCancel)="handleCancel()" show-cancel-button="focus"
                            placeholder="Cari resep di sini..."
                            color="success"></ion-searchbar>
         </ion-col>
@@ -59,7 +53,7 @@
                 </div>
             </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row class="second-row">
             <ion-col>
                 <div [routerLink]="['./', 'ikanSeafood']">
                     <ion-img src="../../assets/icon-ikan.png" alt="icon-ikan.png"></ion-img>
