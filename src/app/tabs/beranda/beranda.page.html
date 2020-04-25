@@ -2,7 +2,11 @@
     <ion-grid>
         <ion-row>
             <ion-col size="4">
-                <ion-button class="ion-no-margin btn-header btn-credits" shape="round"
+                <!--                <ion-button class="ion-no-margin btn-header btn-credits" shape="round"-->
+                <!--                            [routerLink]="['/credits']">Credits-->
+                <!--                </ion-button>-->
+                <ion-button (click)="handleTestTypo()" class="ion-no-margin btn-header btn-credits"
+                            shape="round"
                             [routerLink]="['/credits']">Credits
                 </ion-button>
             </ion-col>
@@ -10,7 +14,10 @@
                 <ion-img class="logo-risetta" src="../../assets/logo-risetta.png" alt="logo-risetta.png"></ion-img>
             </ion-col>
             <ion-col size="4">
-                <ion-button (click)="handleExitApp()" class="ion-no-margin btn-header btn-exit" shape="round">
+                <!--                <ion-button (click)="handleExitApp()" class="ion-no-margin btn-header btn-exit" shape="round">-->
+                <!--                    <ion-icon name="exit"></ion-icon>-->
+                <!--                </ion-button>-->
+                <ion-button (click)="handleTypoGenerationCombination()" class="ion-no-margin btn-header btn-exit" shape="round">
                     <ion-icon name="exit"></ion-icon>
                 </ion-button>
             </ion-col>
@@ -21,7 +28,8 @@
 <ion-content>
     <ion-row>
         <ion-col>
-            <ion-searchbar class="search-bar" (ionInput)="handleInput($event)" (ionFocus)="handleFocus()" (ionCancel)="handleCancel()" show-cancel-button="focus"
+            <ion-searchbar class="search-bar" (ionInput)="handleInput($event)" (ionFocus)="handleFocus()"
+                           (ionCancel)="handleCancel()" show-cancel-button="focus"
                            placeholder="Cari resep di sini..."
                            color="success"></ion-searchbar>
         </ion-col>
