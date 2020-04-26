@@ -180,8 +180,10 @@ export class BerandaPage implements OnInit {
 
       let jaroDistance = 0;
 
+      // Menghitung Jaro Distance
       jaroDistance = ((matches / firstStringLen) + (matches / secondStringLen) + ((matches - transpositions) / matches)) / 3.0;
 
+      // Menghitung prefix
       let totalPrefix = 0;
       for (let i = 0; i < 4; i++) {
         if (firstString[i] === secondString[i]) {
@@ -191,6 +193,7 @@ export class BerandaPage implements OnInit {
         }
       }
 
+      // Menghitung Jaro-Winkler Distance
       jaroWinklerDistance = jaroDistance + (totalPrefix * 0.1 * (1 - jaroDistance));
 
       if (jaroWinklerDistance >= 0.7) {
