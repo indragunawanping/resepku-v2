@@ -134,11 +134,14 @@ export class BerandaPage implements OnInit {
       const firstStringMatches = [];
       const secondStringMatches = [];
 
+      // Menentukan toleransi jarak dari kedua string/Max Match Distance
       const maxMatchDistance = Math.floor(secondStringLen / 2) - 1;
 
       let matches = 0;
 
+      // Menghitung jumlah match
       for (let i = 0; i < firstStringLen; i++) {
+        // Menentukan nilai start dan end berdasarkan maxMatchDistance
         const start = Math.max(0, i - maxMatchDistance);
         const end = Math.min(i + maxMatchDistance + 1, secondStringLen);
 
@@ -158,23 +161,21 @@ export class BerandaPage implements OnInit {
 
       let k = 0;
       let transpositions = 0;
+
+      // Menghitung nilai transposisi
       for (let a = 0; a < firstStringLen; a++) {
-        // Jika tidak ada 'match' dalam firstStringMatches[a], continue
         if (!firstStringMatches[a]) {
           continue;
         }
-        // Ketika tidak ada match dalam secondStringMatches[k], k++
         while (!secondStringMatches[k]) {
           k++;
         }
-        // Jika firstString[a] !== secondString[k], transposition++
         if (firstString[a] !== secondString[k]) {
           transpositions++;
         }
         k++;
       }
 
-      // Membagi dua
       transpositions = Math.ceil(transpositions / 2);
 
       let jaroDistance = 0;
