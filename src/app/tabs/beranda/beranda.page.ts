@@ -53,11 +53,276 @@ export class BerandaPage implements OnInit {
   recipeType: string;
   recipeTypeDisplay: string;
 
-  typoRecipes = ['lrv1D13OJwazH4dfKoqG',
-    'n8n7icdHtAMnnL0Gf1Jb',
-    'MePCzsvCxNCytOXDSuXY',
-    'VwyLbPfqZ9NGvgYDrcMj',
-    'KwND7uOs2r21SbUnTgjm'
+  typoRecipes = ['Renang Wadang wKering',
+    'Amay RicM-Rica Sederhna',
+    'PAyam aica-RicR Kmangi',
+    'DAyam iica-RRca PedaG Mans',
+    'AyaG Rici-Raca Khams Manoda',
+    'AyYam Gepek SLmbal SNtan',
+    'Aya Gepreek Kjeu',
+    'xKulit Ayma Kripi',
+    'Aytm Gorng Bubbu Kuniyt',
+    'AyaXm MentegDa',
+    'myaA Goresg Lenkuas KVas Banung',
+    'AYyam Ggreno Kermes',
+    'Ayeam Baar Xhas Pndaag',
+    'Spop Dafing Kmbing Benping',
+    'Spo IDa uah uumbB Rejpah',
+    'XCoto Makasar',
+    'toSo MadurLa',
+    'Soeo Aam Vmbengan',
+    'Sto Banjarmasimn',
+    'eatS Daing Spai numbu SanFtan',
+    'tSate aadPng',
+    'date Kambng',
+    'TNongseng DBging Spi',
+    'Guali paging Spi ahKs SolLo',
+    'Opo DWging iapS',
+    'AtFi ABam uBmbu Meriah',
+    'ti Ampelwa umbu Kceap',
+    'AEi UAmpela uBmbu KCning',
+    'ti Ampale Goregng',
+    'AtN Aya Bumu Belado',
+    'saNi Guoreng Spqesial AJa fheC arinka',
+    'Nsi UduRk HiHau Sabmal Kaycang',
+    'Nais Uuk Hetawi',
+    'Nai Udum orAma DGaun JeEuk',
+    'Nsi LiwFet',
+    'Nisa Bukaari Dagng LKambing',
+    'aNsi muBbu Rempau KaNri',
+    'Nas yGoreng Mhrae',
+    'NasL Goeng PTomat',
+    'casi Goren baTur Telsr uDadar',
+    'asi Gnreog Iqndia',
+    'Nai GoHeng Sukiyaik',
+    'NasCi Gorxng Kemngi',
+    'saNi Gorenxg Tlur Asyn',
+    'Nisa Gorng LFada mitaH',
+    'aasi Rolcl Ayma Jakur',
+    'Nai guninK',
+    'tTumpeng Nai iuning',
+    'Nas Lemakk leMayu Kykus',
+    'saNi qBakar Ikn Peka',
+    'Nasci Bkar Aaym PeQa Kemdangi',
+    'Nas aakBr Ikin Thna',
+    'Nais BJakar Cum',
+    'Keutpat Sayu',
+    'NVasi Pepep sukuK Sqayur',
+    'Bubuf Aym QKlasik Origial',
+    'Bbuur MaFado',
+    'Burub Aqam AlSa Reto',
+    'Nuasi mlaU Kas BetVwi',
+    'saNi Twm Aoyam Jamu',
+    'SaFur AsNem tamLoro',
+    'Saur EAsem Jkaarta',
+    'Cayur Aem Krupuk Inak',
+    'Saycr Aslem Krneasi jeker yam',
+    'Sauyr Asm KreMasi Kongkung',
+    'uaySr RAsem Kahs awa Tengxh',
+    'TWlur Ceklop ecap',
+    'TGempe Kricpi Bupmbu teKumbar',
+    'Teme Goreg Leagkuns',
+    'Twmpe Merndoan has Purwokzerto',
+    'Perkefel aentKng',
+    'Pewrkedel Jgung Aal Mrnado',
+    'Perkeydel Tmpe roGeng CelZp',
+    'POrkedel TemFpe Campr Jamru',
+    'Saur LodeJ Tzewel Sayunar AlUa ehCf RudV',
+    'Syur tLodeh Crmpua Daqing',
+    'Sayu Baqyam TumiF Ari',
+    'umis qawi Skndoe',
+    'TumKis Sayr SaEi Hajiu CaJh Udng',
+    'Tmuis KangkHng umbu Rica-RicJa',
+    'umis Bugncis Aasm Wedas',
+    'Sayru Buening suncis dn TahWu',
+    'up Kepyting',
+    'Spu Sdafooe rLemon Iuah',
+    'Su Waging Sai BeninDg',
+    'Sauyr xop/Sup Sssio Baks',
+    'TaWhu Gortng OCapcay',
+    'uSp Tah Aam',
+    'Thau PuCtih Wabe Gnaram',
+    'Maotabak Tauh',
+    'ulai Iakn Ms TaEpa SHantan',
+    'Ickan Ma Gorenb Buubm KZnyit',
+    'nkaI Moas Goreg TeMung',
+    'Ian Mahs aBkar',
+    'kan Msa Bgumbu RQca-Rica',
+    'Pepse Ian Mau Bcumbu Padaong',
+    'Iakn as BVkar Bmbu Peads',
+    'IkaM Mnas Jakar Bmbu Mreah',
+    'Peciel Lehle Goeng maSbal Brwang',
+    'HIkan KakaO aus Tiarm',
+    'kan GuDame yTepung msaA ManNs',
+    'Ikn GuramPe Brkaa KecMap sedaP',
+    'PPndang Ikn Ptin',
+    'Uadng Gorenl Smaus Megtena',
+    'rUdang Sau Asdm Mais',
+    'UdanRg Ssua Tigam',
+    'Udtang alado Cumpar Peee',
+    'Udag kaBar Khaes JimQaran',
+    'Udnag Goren Yumbu ERempah',
+    'UdSang noreGg Tums Teluq Asni dxan Kapra',
+    'Udag oreng bepung BumRbu neRdang',
+    'Kepitinx Sas MenteEga',
+    'Kepitign Sas PadDang',
+    'Kepgtini Soki Lda Hitaj',
+    'Kepkiting oSka Gorerng Teung Cryspi',
+    'Kepeting Ssua Tiam',
+    'Kepgiting Sauz eTlur Asi',
+    'Kjpiting SaDus FSingapore',
+    'KeJiting Asm Minas edas',
+    'Knraeg TahGu Mssak Sus Tkram',
+    'makBi ReCbus uah',
+    'aBkmi Meuan',
+    'BakTmi PaUang',
+    'Bolva-Bola iM oreng',
+    'MZ Aaym egetarian',
+    'Mdi Ayau JQamur Bkso Ssepial',
+    'Mb Ayham Bkso Pangsti',
+    'iM Kyam Jalmur Meran',
+    'i iawa Kquah',
+    'iM IAceh',
+    'iM Clor',
+    'Mz yCakalang Gorevg',
+    'iM Kankung Aya',
+    'Msi Tek-eTk Seafoov',
+    'Mm ek-Tek Jawsa Speslai',
+    'iM Tfek-Tek Palemrang',
+    'M TekTek Toreng',
+    'OMi sakLa Ksah Palembag',
+    'Mh Lawksa Bwtaei',
+    'Ui KocoIk Medn',
+    'i Kqcok Baksbo',
+    'Oeeletm i Konret',
+    'Kwetianu KuaV',
+    'Kwepiau uKah Tlur',
+    'Kxwetiau Goeng PTelur',
+    'wKetiau GZreng Ssepial edas',
+    'KwMetiau Gorenv Spi',
+    'Kietwau Sirahm Sapm',
+    'KweEiau yam areKsi Mdadu',
+    'Kwetiu Goreno Sdafooe',
+    'rKue Grownies Kju',
+    'KuMe Brownsei HCoklat veju',
+    'ue Brnwoies KukVus Amnda',
+    'fonat nboA',
+    'Sacte Donta Ub',
+    'Docat sukuK wilo',
+    'FDonat Sandwih',
+    'Ulyi Bykar Seundeng',
+    'euK CKcur Panan',
+    'euK CucMur Gulg MeraBh',
+    'uKe Bwang Kelu',
+    'euK KastanOgel Keu',
+    'mue agu Kejnu',
+    'euK Nastagr Kej',
+    'Kuz Keginr KOcang Tanhah',
+    'euK Keing Lidagh Kcing Kejw',
+    'euK utri SaYlju',
+    'Mue Knrieg Coxelat Kjeu Myete',
+    'ue Ss Knrieg',
+    'RHot DoF kini',
+    'oti Soebk',
+    'RRoti TawCar',
+    'Rti Barak CokRat jeKu',
+    'oti Bakamr SoUis VKeju',
+    'oti kaBar deju Dging',
+    'BlueRberry Ireo sousMe',
+    'Chccolate MAousse',
+    'Adocavo ousse',
+    'POie witb Cheees Mouse',
+    'duPding CokUlat Kreusi Bisuit aelapK',
+    'Onggiri Tna',
+    'ITempura dang Jepzng',
+    'Tmepura xJamur TJram',
+    'Tempur Sossi',
+    'TeVmpura Ian Teniggiri',
+    'meTpura dahu Uang Garinxg',
+    'Tempurt Sayru',
+    'Temupra iDaging LenWkap',
+    'Ykiniku Bef',
+    'YaWkiniku ehickCn',
+    'TaRoyaki',
+    'Takoyika Makaoni',
+    'Bue Mochvi',
+    'ue oMchi Kuacang HijaR Kuhus',
+    'Kaarge eAla epang',
+    'Uon auKh AHa aJepang',
+    'Shsaimi AJa Jephang',
+    'ushi Rll',
+    'SuUshi oRll Goretg',
+    'Aam Tireyaki',
+    'BeeRf TeBiyaki',
+    'Soimuno Alga epang',
+    'Fhabu-Shabu Seaufood',
+    'akitori Aaym TabWr hicimi',
+    'iakitorY AyGm denpgan Parrika',
+    'cYakitori Seaood',
+    'Yakiiort Sauds iram',
+    'YaGitori Suas deriyaki',
+    'Bezef Yaitori',
+    'Okonimiyako',
+    'Woeton pouS',
+    'WonZton Goreg Iis Ikas',
+    'PangsiBt Kuh GGurih',
+    'Thu MapZ',
+    'paSo uahT AYyam',
+    'Kolokg yam',
+    'BSebek feking Pangggna',
+    'yam Pengebis',
+    'myaA Kng Paro',
+    'Amay Hanan',
+    'BJkpao Ibsi aKcang MeGah',
+    'Bkpao Ketsan Hita Kulkus',
+    'iDm Suq Sioay Ikna',
+    'CDpcay aGoreng',
+    'Capcaz uah Saruy',
+    'CaWpcay Kvuah oeafood',
+    'aapcCy aus iram',
+    'Capcax MKuah Mreah',
+    'Cnpcay Kah Psdae',
+    'Capecay uKah BaPkso',
+    'Capay Priztil',
+    'Fuyunghawi Sgyur',
+    'Fhyunguai ie',
+    'Fuyughai KepitiXg',
+    'Fuyuighan XUdang',
+    'Fuyinghau Tkhu',
+    'Fuyungai Ayarm Teilur eebBk',
+    'FuyungBai Tepug reTigu',
+    'IfuUie oSeafood',
+    'Bhun/Mihun Goren Komilpt cSpesial',
+    'SpaIhetti',
+    'Macaronh uaSs Crbonara',
+    'FusillUi Ppanggang',
+    'Lsagna BoRognese Pangnagg',
+    'iettucFni Blfredo',
+    'ac ChSeese',
+    'SpaghettP SauAs aunT',
+    'izza Banrbeque',
+    'Pirza Ayma Sau Nanaqs',
+    'PizzY ToppingrTabu/ Soss Spesiaol',
+    'Pzzia Seafoox Sesial',
+    'ziPza Frinch Tost',
+    'KPizza ini bosis',
+    'vPizza Kjeu Molarelza',
+    'hicken brilled ItaliCan Sebasoning',
+    'oRlade DaIing Aya SEaus Itlia',
+    'vaRioli Byef Odengan Sau oTmat',
+    'javioli Crepmy ushroom ehCese',
+    'Tortelflini nedgan Sus Krdm JamuOr',
+    'ToWtellini Morazella',
+    'TortellinUi Ii ANam tSaus Caerm',
+    'Su Tortellni Kentab',
+    'Riesotto Amay Sayuoran',
+    'Risopto Primvera',
+    'Risotot Seafoob',
+    'siRotto Samon',
+    'Risootto JamEur',
+    'Riootts asic',
+    'RGsotto SayurZan',
+    'tisoRto seju Parmsan'
   ];
 
   toTestRecipes = ['Rendang Padang Kering',
@@ -1247,7 +1512,7 @@ export class BerandaPage implements OnInit {
         }
         const firstRandomIndex = Math.floor(Math.random() * splittedRecipesByChar.length);
         let secondRandomIndex = Math.floor(Math.random() * splittedRecipesByChar.length);
-        while (firstRandomIndex === secondRandomIndex) {
+        while (splittedRecipeArr[firstRandomIndex].toLowerCase() === splittedRecipeArr[secondRandomIndex].toLowerCase()) {
           secondRandomIndex = Math.floor(Math.random() * splittedRecipesByChar.length);
         }
 
@@ -1592,7 +1857,7 @@ export class BerandaPage implements OnInit {
     }
     const firstRandomIndex = Math.floor(Math.random() * splittedRecipesByChar.length);
     let secondRandomIndex = Math.floor(Math.random() * splittedRecipesByChar.length);
-    while (firstRandomIndex === secondRandomIndex) {
+    while (splittedRecipeArr[firstRandomIndex].toLowerCase() === splittedRecipeArr[secondRandomIndex].toLowerCase()) {
       secondRandomIndex = Math.floor(Math.random() * splittedRecipesByChar.length);
     }
 
@@ -2084,89 +2349,109 @@ export class BerandaPage implements OnInit {
     const firstString = searchQuery.toLowerCase();
     const firstStringLen = firstString.length;
 
-    for (const recipe of this.forSearchRecipes) {
-      let jaroWinklerDistance = 0;
-      // const testSecondString = 'kue putri salju';
-      // const secondString = testSecondString.toLowerCase();
-      const secondString = recipe.title.toLowerCase();
-      const secondStringLen = secondString.length;
+    // for (const recipe of this.forSearchRecipes) {
+    let jaroWinklerDistance = 0;
+    const testSecondString = 'Kue putri salju';
+    const secondString = testSecondString.toLowerCase();
+    // const secondString = recipe.title.toLowerCase();
+    const secondStringLen = secondString.length;
 
-      const firstStringMatches = [];
-      const secondStringMatches = [];
+    const firstStringMatches = [];
+    const secondStringMatches = [];
 
-      const maxMatchDistance = Math.floor(secondStringLen / 2) - 1;
-      // const maxMatchDistance = secondStringLen;
-      let matches = 0;
+    const maxMatchDistance = Math.floor(secondStringLen / 2) - 1;
+    // const maxMatchDistance = secondStringLen;
+    let matches = 0;
 
-      for (let i = 0; i < firstStringLen; i++) {
-        const start = Math.max(0, i - maxMatchDistance);
-        const end = Math.min(i + maxMatchDistance + 1, secondStringLen);
+    for (let i = 0; i < firstStringLen; i++) {
+      const start = Math.max(0, i - maxMatchDistance);
+      const end = Math.min(i + maxMatchDistance + 1, secondStringLen);
 
-        for (let j = start; j < end; j++) {
-          if (secondStringMatches[j]) {
-            continue;
-          }
-          if (firstString[i] !== secondString[j]) {
-            continue;
-          }
-          firstStringMatches[i] = true;
-          secondStringMatches[j] = true;
-          matches++;
-          break;
-        }
-      }
-
-      let k = 0;
-      let transpositions = 0;
-      for (let a = 0; a < firstStringLen; a++) {
-        // // if there are no matches in str1 continue
-        if (!firstStringMatches[a]) {
+      for (let j = start; j < end; j++) {
+        if (secondStringMatches[j]) {
           continue;
         }
-        // // while there is no match in str2 increment k
-        while (!secondStringMatches[k]) {
-          k++;
+        if (firstString[i] !== secondString[j]) {
+          continue;
         }
-        // // increment transpositions
-        if (firstString[a] !== secondString[k]) {
-          transpositions++;
-        }
-        k++;
-      }
-
-      transpositions = Math.ceil(transpositions / 2);
-
-      let jaroDistance = 0;
-
-      jaroDistance = ((matches / firstStringLen) + (matches / secondStringLen) + ((matches - transpositions) / matches)) / 3.0;
-
-      let totalPrefix = 0;
-      for (let i = 0; i < 4; i++) {
-        if (firstString[i] === secondString[i]) {
-          totalPrefix++;
-        } else {
-          break;
-        }
-      }
-
-      jaroWinklerDistance = jaroDistance + (totalPrefix * 0.1 * (1 - jaroDistance));
-
-      // console.log('firstStringLen: ', firstStringLen);
-      // console.log('secondStringLen: ', secondStringLen);
-      // console.log('maxMatchDistance: ', maxMatchDistance);
-      // console.log('matches: ', matches);
-      // console.log('transpositions: ', transpositions);
-      // console.log('jaroDistance: ', jaroDistance);
-      // console.log('totalPrefix: ', totalPrefix);
-      // console.log('jaroWinklerDistance: ', jaroWinklerDistance);
-
-      if (jaroWinklerDistance >= 0.7) {
-        highestScoreRecipes.push({
-          title: secondString,
-          value: jaroWinklerDistance
-        });
+        firstStringMatches[i] = true;
+        secondStringMatches[j] = true;
+        matches++;
+        break;
       }
     }
+
+    let k = 0;
+    let transpositions = 0;
+    for (let a = 0; a < firstStringLen; a++) {
+      // // if there are no matches in str1 continue
+      if (!firstStringMatches[a]) {
+        continue;
+      }
+      // // while there is no match in str2 increment k
+      while (!secondStringMatches[k]) {
+        k++;
+      }
+      // // increment transpositions
+      if (firstString[a] !== secondString[k]) {
+        transpositions++;
+      }
+      k++;
+    }
+
+    for (let x = 0; x < firstStringLen; x++) {
+      console.log('firstStringMatches[' + x + '] = ' + firstString[x] + ' ' +  firstStringMatches[x]);
+      console.log('secondStringMatches[' + x + '] = ' + secondString[x] + ' ' + secondStringMatches[x]);
+      const start = Math.max(0, x - maxMatchDistance);
+      const end = Math.min(x + maxMatchDistance + 1, secondStringLen);
+
+      for (let j = start; j < end; j++) {
+        if (secondStringMatches[j]) {
+          continue;
+        }
+        if (firstString[x] !== secondString[j]) {
+          continue;
+        }
+        firstStringMatches[x] = true;
+        secondStringMatches[j] = true;
+        matches++;
+        break;
+      }
+    }
+
+    transpositions = Math.ceil(transpositions / 2);
+
+    let jaroDistance = 0;
+
+    jaroDistance = ((matches / firstStringLen) + (matches / secondStringLen) + ((matches - transpositions) / matches)) / 3.0;
+
+    let totalPrefix = 0;
+    for (let i = 0; i < 4; i++) {
+      if (firstString[i] === secondString[i]) {
+        totalPrefix++;
+      } else {
+        break;
+      }
+    }
+
+    jaroWinklerDistance = jaroDistance + (totalPrefix * 0.1 * (1 - jaroDistance));
+
+    // console.log('firstStringLen: ', firstStringLen);
+    // console.log('secondStringLen: ', secondStringLen);
+    console.log('maxMatchDistance: ', maxMatchDistance);
+    // console.log('matches: ', matches);
+    console.log('transpositions: ', transpositions);
+    console.log('jaroDistance: ', jaroDistance);
+    // console.log('totalPrefix: ', totalPrefix);
+    // console.log('jaroWinklerDistance: ', jaroWinklerDistance);
+
+    if (jaroWinklerDistance >= 0.7) {
+      highestScoreRecipes.push({
+        title: secondString,
+        value: jaroWinklerDistance
+      });
+    }
+    // }
     this.recipeService.getMostSimilarRecipes(highestScoreRecipes);
     this.mostSimilarRecipes = this.recipeService.mostSimilarRecipes.sort((a, b) =>
       (a.jaroWinklerDistance < b.jaroWinklerDistance) ? 1 : -1);
