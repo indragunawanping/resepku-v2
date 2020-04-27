@@ -2351,7 +2351,8 @@ export class BerandaPage implements OnInit {
 
     // for (const recipe of this.forSearchRecipes) {
     let jaroWinklerDistance = 0;
-    const testSecondString = 'Kue putri salju';
+    // const testSecondString = 'kwetiau kuah telur';
+    const testSecondString = 'Sop Iga Kuah Bumbu Rempah';
     const secondString = testSecondString.toLowerCase();
     // const secondString = recipe.title.toLowerCase();
     const secondStringLen = secondString.length;
@@ -2362,6 +2363,8 @@ export class BerandaPage implements OnInit {
     const maxMatchDistance = Math.floor(secondStringLen / 2) - 1;
     // const maxMatchDistance = secondStringLen;
     let matches = 0;
+    let matchedFirstString = '';
+    let matchedSecondString = '';
 
     for (let i = 0; i < firstStringLen; i++) {
       const start = Math.max(0, i - maxMatchDistance);
@@ -2372,54 +2375,82 @@ export class BerandaPage implements OnInit {
           continue;
         }
         if (firstString[i] !== secondString[j]) {
+          firstStringMatches[i] = false;
+          secondStringMatches[j] = false;
           continue;
         }
         firstStringMatches[i] = true;
         secondStringMatches[j] = true;
+        matchedFirstString += firstString[i];
+        // matchedSecondString += secondString[j];
+        // console.log('firstStringMatches[' + i + '] = ' + firstString[i] + ' ' + firstStringMatches[i]);
+        // console.log('secondStringMatches[' + j + '] = ' + secondString[j] + ' ' + secondStringMatches[j]);
+        // if (firstStringMatches[i] !== true || firstStringMatches[j] !== true) {
+        //   console.log('firstStringMatches[' + i + '] = ' + firstString[i] + ' ' + firstStringMatches[i]);
+        //   console.log('secondStringMatches[' + j + '] = ' + secondString[j] + ' ' + secondStringMatches[j]);
+        // }
         matches++;
         break;
       }
     }
 
-    let k = 0;
+    for (let c = 0; c < secondStringLen; c++) {
+      if (secondStringMatches[c] === true) {
+        matchedSecondString += secondString[c];
+      }
+    }
+
+    console.log('matchedFirstString: ', matchedFirstString);
+    console.log('matchedSecondString: ', matchedSecondString);
+
+    let splittedMatchedFirstString = [];
+    let splittedMatchedSecondString = [];
+
     let transpositions = 0;
-    for (let a = 0; a < firstStringLen; a++) {
-      // // if there are no matches in str1 continue
-      if (!firstStringMatches[a]) {
-        continue;
-      }
-      // // while there is no match in str2 increment k
-      while (!secondStringMatches[k]) {
-        k++;
-      }
-      // // increment transpositions
-      if (firstString[a] !== secondString[k]) {
-        transpositions++;
-      }
-      k++;
-    }
 
-    for (let x = 0; x < firstStringLen; x++) {
-      console.log('firstStringMatches[' + x + '] = ' + firstString[x] + ' ' +  firstStringMatches[x]);
-      console.log('secondStringMatches[' + x + '] = ' + secondString[x] + ' ' + secondStringMatches[x]);
-      const start = Math.max(0, x - maxMatchDistance);
-      const end = Math.min(x + maxMatchDistance + 1, secondStringLen);
-
-      for (let j = start; j < end; j++) {
-        if (secondStringMatches[j]) {
-          continue;
+    if (matchedFirstString === matchedSecondString) {
+      console.log('SAMA PERSIS');
+    } else {
+      splittedMatchedFirstString = matchedFirstString.split('');
+      splittedMatchedSecondString = matchedSecondString.split('');
+      for (let x = 0; x < matchedFirstString.length; x++) {
+        if (splittedMatchedFirstString[x] !== matchedSecondString[x]) {
+          for (let y = x + 1; y < matchedFirstString.length; y++) {
+            if (splittedMatchedFirstString[y] === matchedSecondString[x]) {
+              console.log('sama');
+              [splittedMatchedFirstString[x], splittedMatchedFirstString[y]] =
+                [splittedMatchedFirstString[y], splittedMatchedFirstString[x]];
+              console.log('splittedMatchedFirstString: ', splittedMatchedFirstString);
+              transpositions++;
+              break;
+            }
+          }
         }
-        if (firstString[x] !== secondString[j]) {
-          continue;
-        }
-        firstStringMatches[x] = true;
-        secondStringMatches[j] = true;
-        matches++;
-        break;
       }
     }
 
-    transpositions = Math.ceil(transpositions / 2);
+    console.log('splittedMatchedFirstString: ', splittedMatchedFirstString);
+    console.log('splittedMatchedSecondString: ', splittedMatchedSecondString);
+
+    // let k = 0;
+    // let transpositions = 0;
+    // for (let a = 0; a < firstStringLen; a++) {
+    //   // // if there are no matches in str1 continue
+    //   if (!firstStringMatches[a]) {
+    //     continue;
+    //   }
+    //   // // while there is no match in str2 increment k
+    //   while (!secondStringMatches[k]) {
+    //     k++;
+    //   }
+    //   // // increment transpositions
+    //   if (firstString[a] !== secondString[k]) {
+    //     transpositions++;
+    //   }
+    //   k++;
+    // }
+    //
+    // transpositions = Math.ceil(transpositions / 2);
 
     let jaroDistance = 0;
 
@@ -2443,14 +2474,14 @@ export class BerandaPage implements OnInit {
     console.log('transpositions: ', transpositions);
     console.log('jaroDistance: ', jaroDistance);
     // console.log('totalPrefix: ', totalPrefix);
-    // console.log('jaroWinklerDistance: ', jaroWinklerDistance);
+    console.log('jaroWinklerDistance: ', jaroWinklerDistance);
 
-    if (jaroWinklerDistance >= 0.7) {
-      highestScoreRecipes.push({
-        title: secondString,
-        value: jaroWinklerDistance
-      });
-    }
+    // if (jaroWinklerDistance >= 0.7) {
+    highestScoreRecipes.push({
+      title: secondString,
+      value: jaroWinklerDistance
+    });
+    // }
     // }
     this.recipeService.getMostSimilarRecipes(highestScoreRecipes);
     this.mostSimilarRecipes = this.recipeService.mostSimilarRecipes.sort((a, b) =>
