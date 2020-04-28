@@ -207,7 +207,6 @@ export class BerandaPage implements OnInit {
     this.mostSimilarRecipes = this.recipeService.mostSimilarRecipes.sort((a, b) =>
       (a.jaroWinklerDistance < b.jaroWinklerDistance) ? 1 : -1);
     this.mostSimilarRecipes = this.mostSimilarRecipes.slice(0, 5);
-    console.log('mostSimilarRecipes: ', this.mostSimilarRecipes[0].jaroWinklerDistance);
   }
 
   handleFocus() {
