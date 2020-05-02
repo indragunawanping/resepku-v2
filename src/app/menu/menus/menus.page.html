@@ -29,10 +29,10 @@
                     <ion-img
                             (click)="handleHistoryChange(idx, recipe.title, recipeType, recipe.imageUrl)"
                             [routerLink]="['./', idx]" *ngIf="recipe.imageUrl !== 'N/A'"
-                            class="thumbnail" src="{{recipe.imageUrl}}" alt="menu-image"></ion-img>
+                            class="thumbnail" src="{{recipe.imageUrl}}" alt="Loading image..."></ion-img>
                     <img (click)="handleHistoryChange(idx, recipe.title, recipeType, recipe.imageUrl)"
                          [routerLink]="['./', idx]" *ngIf="recipe.imageUrl === 'N/A'" class="thumbnail"
-                         src="../../../assets/no-image-available.png" alt="no-image-available.png">
+                         src="../../../assets/no-image-available.png" alt="Loading image...">
                     <ion-card-content
                             (click)="handleHistoryChange(idx, recipe.title, recipeType, recipe.imageUrl)"
                             [routerLink]="['./', idx]">

@@ -134,14 +134,12 @@ export class BerandaPage implements OnInit {
       const firstStringMatches = [];
       const secondStringMatches = [];
 
-      // Menentukan toleransi jarak dari kedua string/Max Match Distance
       const maxMatchDistance = Math.floor(secondStringLen / 2) - 1;
-
       let matches = 0;
+      let matchedFirstString = '';
+      let matchedSecondString = '';
 
-      // Menghitung jumlah match
       for (let i = 0; i < firstStringLen; i++) {
-        // Menentukan nilai start dan end berdasarkan maxMatchDistance
         const start = Math.max(0, i - maxMatchDistance);
         const end = Math.min(i + maxMatchDistance + 1, secondStringLen);
 
@@ -150,40 +148,48 @@ export class BerandaPage implements OnInit {
             continue;
           }
           if (firstString[i] !== secondString[j]) {
+            firstStringMatches[i] = false;
+            secondStringMatches[j] = false;
             continue;
           }
           firstStringMatches[i] = true;
           secondStringMatches[j] = true;
+          matchedFirstString += firstString[i];
           matches++;
           break;
         }
       }
 
-      let k = 0;
-      let transpositions = 0;
-
-      // Menghitung nilai transposisi
-      for (let a = 0; a < firstStringLen; a++) {
-        if (!firstStringMatches[a]) {
-          continue;
+      for (let c = 0; c < secondStringLen; c++) {
+        if (secondStringMatches[c] === true) {
+          matchedSecondString += secondString[c];
         }
-        while (!secondStringMatches[k]) {
-          k++;
-        }
-        if (firstString[a] !== secondString[k]) {
-          transpositions++;
-        }
-        k++;
       }
 
-      transpositions = Math.ceil(transpositions / 2);
+      let splittedMatchedFirstString = [];
+
+      let transpositions = 0;
+
+      if (matchedFirstString !== matchedSecondString) {
+        splittedMatchedFirstString = matchedFirstString.split('');
+        for (let x = 0; x < matchedFirstString.length; x++) {
+          if (splittedMatchedFirstString[x] !== matchedSecondString[x]) {
+            for (let y = x + 1; y < matchedFirstString.length; y++) {
+              if (splittedMatchedFirstString[y] === matchedSecondString[x]) {
+                [splittedMatchedFirstString[x], splittedMatchedFirstString[y]] =
+                  [splittedMatchedFirstString[y], splittedMatchedFirstString[x]];
+                transpositions++;
+                break;
+              }
+            }
+          }
+        }
+      }
 
       let jaroDistance = 0;
 
-      // Menghitung Jaro Distance
       jaroDistance = ((matches / firstStringLen) + (matches / secondStringLen) + ((matches - transpositions) / matches)) / 3.0;
 
-      // Menghitung prefix
       let totalPrefix = 0;
       for (let i = 0; i < 4; i++) {
         if (firstString[i] === secondString[i]) {
@@ -193,7 +199,6 @@ export class BerandaPage implements OnInit {
         }
       }
 
-      // Menghitung Jaro-Winkler Distance
       jaroWinklerDistance = jaroDistance + (totalPrefix * 0.1 * (1 - jaroDistance));
 
       if (jaroWinklerDistance >= 0.7) {
