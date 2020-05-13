@@ -3722,7 +3722,7 @@ export class BerandaPage implements OnInit {
 
     // for (const recipe of this.forSearchRecipes) {
     let jaroWinklerDistance = 0;
-    const testSecondString = 'Takoyaki Makaroni';
+    const testSecondString = 'tahu mapo';
     const secondString = testSecondString.toLowerCase();
     // const secondString = recipe.title.toLowerCase();
     const secondStringLen = secondString.length;
@@ -3820,7 +3820,10 @@ export class BerandaPage implements OnInit {
     this.mostSimilarRecipes = this.recipeService.mostSimilarRecipes.sort((a, b) =>
       (a.jaroWinklerDistance < b.jaroWinklerDistance) ? 1 : -1);
     this.mostSimilarRecipes = this.mostSimilarRecipes.slice(0, 5);
-    console.log('mostSimilarRecipes: ', this.mostSimilarRecipes[0].jaroWinklerDistance);
+    if (this.mostSimilarRecipes[0]) {
+      console.log('mostSimilarRecipes: ', this.mostSimilarRecipes[0].jaroWinklerDistance);
+    }
+
     // console.log(highestScoreRecipes[0].value.toFixed(5));
   }
 
